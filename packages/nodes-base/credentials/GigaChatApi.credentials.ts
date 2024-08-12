@@ -57,7 +57,8 @@ export class GigaChatApi implements ICredentialType {
 
 	test: ICredentialTestRequest = {
 		request: {
-			apiUrl: string = "https://gigachat.devices.sberbank.ru/api/v1",
+			// TODO: fix
+			// apiUrl: string = "https://gigachat.devices.sberbank.ru/api/v1",
 			// model: '/v1/models',
 		},
 	};
