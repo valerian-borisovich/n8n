@@ -13,9 +13,9 @@ export class GigaChatApi implements ICredentialType {
   private apiUrl: string = "https://gigachat.devices.sberbank.ru/api/v1";
   private authUrl: string = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth";
 
-  private clientSecret: string;
-  private clientID: string;
-  private clientKey: string;
+  private clientSecret: string = "";
+  private clientID: string = "";
+  private clientKey: string = "";
   
   private verify_ssl_certs: boolean = false;
   private profanity_check: boolean = false;
