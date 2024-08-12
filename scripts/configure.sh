@@ -1,7 +1,9 @@
+#!/usr/bin/env bash
 #!/usr/bin/bash
 
 # #########################################################################################################
 # ###
+@echo -e "run scripts/configure.sh"
 #
 #: Load .env or .env.local if exists
 if [[ -f ".env" ]] ; then set -a; source .env; set +a; fi
