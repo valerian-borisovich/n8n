@@ -1,13 +1,25 @@
 #!/usr/bin/env bash
-#!/usr/bin/bash
+#
 
 # #########################################################################################################
 # ###
-@echo -e "run scripts/configure.sh"
+
+echo -e "\033[38;2;0;255;02mRuning scripts/configure.sh \033[0m"
+
 #
+
+# ### Load .env file
+if [ -f .env ]; then
+  set -a
+  echo "Load .env file"
+  source .env
+  set +a
+fi
+
 #: Load .env or .env.local if exists
-if [[ -f ".env" ]] ; then set -a; source .env; set +a; fi
+#if [[ -f ".env" ]] ; then set -a; source .env; set +a; fi
 if [[ -f ".env.local" ]] ; then set -a; source .env.local; set +a; fi
+
 
 # #########################################################################################################
 # ###
@@ -35,8 +47,8 @@ export N8N_TEMPLATES_HOST=https://api.n8n-12pd.onrender.com
 # #########################################################################################################
 
 # ###
-export N8N_SSL_KEY=
-export N8N_SSL_CERT=
+#export N8N_SSL_KEY=
+#export N8N_SSL_CERT=
 # ###
 
 # #########################################################################################################
@@ -44,10 +56,7 @@ export N8N_SSL_CERT=
 #export N8N_PATH=/
 # ###
 #export N8N_USER_FOLDER=/home/jim/n8n
-# ###
 #export N8N_USER_FOLDER=/home/
-# ###
-#export N8N_PATH=/
 # ###
 
 
@@ -136,4 +145,12 @@ export NODE_FUNCTION_ALLOW_EXTERNAL=moment,lodash
 # ###
 # ### Swagger
 # N8N_HOST:N8N_PORT/N8N_PATH/api/v<api-version-number>/docs
-  
+
+
+# #########################################################################################################
+# ###
+#
+
+echo -e "\033[38;255;0;0;02m"
+env
+echo -e "\033[0m"
