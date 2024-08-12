@@ -3,7 +3,13 @@
 # #########################################################################################################
 # ###
 #
+#: Load .env or .env.local if exists
+if [[ -f ".env" ]] ; then set -a; source .env; set +a; fi
+if [[ -f ".env.local" ]] ; then set -a; source .env.local; set +a; fi
 
+# #########################################################################################################
+# ###
+#
 # ###
 export N8N_HOST=https://n8n-12pd.onrender.com
 export N8N_PORT=5678
