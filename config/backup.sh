@@ -24,6 +24,7 @@ if [ "$CONFIG_DIR" == "$N8N_CONFIG_DIR" ]; then
 	git add $CONFIG_DIR/*
 	git commit -m "!date! !time!"
 	timeout /T 300
+  #git push 
 fi
 
 # #########################################################
