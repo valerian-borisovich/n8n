@@ -114,8 +114,9 @@ export NODE_FUNCTION_ALLOW_EXTERNAL=moment,lodash
 #
 # #########################################################################################################
 # ###
-# ### Swagger
-# N8N_HOST:N8N_PORT/N8N_PATH/api/v<api-version-number>/docs
+git config user.email "valerian-borisovich@gmail.com"
+git config user.name "Valerian Borisovich"
+# git config credential.helper "store --file ~/.secrets"
 #
 # #########################################################################################################
 # ###
