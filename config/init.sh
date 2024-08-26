@@ -22,6 +22,7 @@ fi
 
 # shellcheck disable=SC1090
 if [[ -f "./$ENV_FILE" ]] ; then set -a; echo "   Load './$ENV_FILE' file"; source "./$ENV_FILE"; set +a; fi
+# shellcheck disable=SC1090
 if [[ -f "../$ENV_FILE" ]] ; then set -a; echo "   Load '../$ENV_FILE' file"; source "../$ENV_FILE"; set +a; fi
 
 # #########################################################################################################
@@ -99,5 +100,6 @@ git commit -a -m "config update"
 # ###   Git push
 echo -e '   Git push'
 # git push origin master
-git push --set-upstream "https://$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
+# git push --set-upstream "https://$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
+git push --set-upstream "$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
 
