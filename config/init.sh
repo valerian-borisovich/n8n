@@ -12,6 +12,7 @@ echo -e "\033[38;2;155;155;255m   Started ./config/init.sh   \033[0m"
 ENV_FILE=.env.render.n8n
 #
 echo -e "\033[38;2;0;255;02m"
+
 # ### Load .env file
 if [ -f .env ]; then
   set -a
@@ -28,9 +29,9 @@ if [[ -f "../$ENV_FILE" ]] ; then set -a; echo "   Load '../$ENV_FILE' file"; so
 # #########################################################################################################
 # ###
 #
-if [ ! -d "$APP_BASE_DIR" ] ; then mkdir -p "$APP_BASE_DIR"; fi
+if [ ! -d "$RENDER_DIR" ] ; then mkdir -p "$RENDER_DIR"; chown -R "$USER:$USER" "$RENDER_DIR"; fi
 # sudo chown -R $USER:$USER /opt/render/
-chown -R "$USER:$USER" "$APP_BASE_DIR"
+
 
 # #########################################################################################################
 # ###
@@ -49,15 +50,10 @@ if [ -f "$APP_BASE_DIR/.git/index.lock" ] ; then rm "$APP_BASE_DIR/.git/index.lo
 # ###
 #
 
-if [ ! -d "$N8N_RENDER_DIR" ] ; then
-	echo -e "mkdir -p $N8N_RENDER_DIR";
-	mkdir -p "$N8N_RENDER_DIR";
-fi
-
-if [ ! -d "$APP_BASE_DIR" ] ; then
-	echo -e "mkdir -p $APP_BASE_DIR";
-	mkdir -p "$APP_BASE_DIR";
-fi
+#if [ ! -d "$APP_BASE_DIR" ] ; then
+#	echo -e "mkdir -p $APP_BASE_DIR";
+#	mkdir -p "$APP_BASE_DIR";
+#fi
 
 #if [ -d "$APP_BASE_DIR" ] ; then
 #	# ###   copy n8n distributive
@@ -81,25 +77,34 @@ git checkout master
 
 # ###   config restore
 echo -e "   Config restore"
-if [ ! -d "$N8N_CONFIG_DIR" ] ; then
-	mkdir -p "$N8N_RENDER_DIR"
-	mkdir -p "$N8N_RENDER_DIR/.n8n"
+if [ -d "$APP_CONFIG_DIR" ] ; then
+	cp -rf "$APP_CONFIG_DIR/." "$N8N_CONFIG_DIR"
+else
+	mkdir -p "$N8N_CONFIG_DIR"
+	cp -rf "$APP_CONFIG_DIR/." "$N8N_CONFIG_DIR"
 fi
-cp -rf "$APP_BASE_DIR/config/." "$N8N_RENDER_DIR/.n8n"
 
 # ###   config save
 echo -e '   Config save'
-# cp -r /opt/render/.n8n/* /opt/render/project/src/config/
-cp -rf "$N8N_RENDER_DIR/.n8n/." "$APP_BASE_DIR/config"
+if [ -d "$APP_CONFIG_DIR" ] ; then
+	cp -rf "$N8N_CONFIG_DIR/." "$APP_CONFIG_DIR"
+else
+	mkdir -p "$N8N_CONFIG_DIR"
+	cp -rf "$N8N_CONFIG_DIR/." "$APP_CONFIG_DIR"
+fi
+
+#mkdir -p /opt/render/project/src/config && cp -rf /opt/render/.n8n/* /opt/render/project/src/config
+#mkdir -p $APP_CONFIG_DIR && cp -rf "$N8N_RENDER_DIR/.n8n/." "$APP_BASE_DIR/config"
 
 # ###   config to github
 echo -e '   Config commit to github'
-git add "$APP_BASE_DIR/config/*"
+git add "$APP_CONFIG_DIR/*"
 git commit -a -m "config update"
 
 # ###   Git push
-echo -e '   Git push'
+echo -e "   git push   =>   $GIT_USERNAME:$GIT_TOKEN@$GIT_REPO"
 # git push origin master
-# git push --set-upstream "https://$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
+
 git push --set-upstream "$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
+
 
