@@ -14,8 +14,8 @@ APP_CONFIG_DIR=/opt/render/project/src/config
 GIT_USERNAME=valerian-borisovich
 GIT_EMAIL=valerian.borisovich@gmail.com
 GIT_REPO=github.com/valerian-borisovich/n8n.git
-GIT_TOKEN=
-GITHUB_TOKEN=
+GIT_TOKEN=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
+GITHUB_TOKEN=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
 
 # ########################################################################################################
 # ###

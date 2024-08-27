@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-set -euo pipefail
 # #########################################################################################################
 # ###
+#
+# set -euo pipefail
 #
 # echo -e "\033[38;2;0;255;02mStarted ./config/init.sh \033[0m"
 echo -e "\033[38;2;100;100;250m"
@@ -17,17 +18,20 @@ echo -e "\033[0m"
 # $!   :is the PID of the most recent background command.
 # $_   :last argument of the previously executed command, or the path of the bash script.
 # $PWD					current directory
-#$USER					current username
-#$HOSTNAME			current hostname
+# $USER					current username
+# $HOSTNAME			current hostname
 # #########################################################################################################
-
 echo -e "\033[38;2;0;255;02m"
-
 # #########################################################################################################
 # ###
 #
 # ALLOWED=.defaults,.config,.env,.ctx
 ALLOWED=.defaults,.config,.env,.ctx,.env.render
+
+
+# #########################################################################################################
+# ###
+#
 env_load()
 {
 IFS=',' read -a arr <<< "$ALLOWED"
@@ -46,93 +50,80 @@ done
 # echo "   Show N8N variables:"
 # env  | sort | grep N8N
 
+env | sort >env.render.md 2>&1
+
+
+# ###
+git config user.email "valerian.borisovich@gmail.com"
+git config user.name "Valerian Borisovich"
+# git config credential.helper "store --file ~/.secrets"
+
 }
 
 # #########################################################################################################
 # ###
 #
-# ###   config to github
+
+# ###   Config to github
+#
 config_push()
 {
+# ###   Git commit
+#
 echo -e '   Config commit to github'
 git add "$APP_CONFIG_DIR/*"
 git commit -a -m "config update"
 
 # ###   Git push
+#
 echo -e "   git push   =>   $GIT_USERNAME:$GIT_TOKEN@$GIT_REPO"
 # git push origin master
-
 git push --set-upstream "$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
+
 }
 
-# ###   config restore
+# ###   Config restore
 config_restore()
 {
 echo -e "   Config restore"
-if [ -d "$APP_CONFIG_DIR" ] ; then
-	cp -rf "$APP_CONFIG_DIR/." "$N8N_CONFIG_DIR"
-else
-	mkdir -p "$N8N_CONFIG_DIR"
-	cp -rf "$APP_CONFIG_DIR/." "$N8N_CONFIG_DIR"
-fi
+if [ ! -d "$APP_CONFIG_DIR" ] ; then mkdir -p "$APP_CONFIG_DIR"; fi
+if [ ! -d "$N8N_CONFIG_DIR" ] ; then mkdir -p "$N8N_CONFIG_DIR"; fi
+cp -rf "$APP_CONFIG_DIR/." "$N8N_CONFIG_DIR"
 }
 
-# ###   config save
+# ###   Config save
 config_save()
 {
 echo -e '   Config save'
-if [ -d "$APP_CONFIG_DIR" ] ; then
-	cp -rf "$N8N_CONFIG_DIR/." "$APP_CONFIG_DIR"
-else
-	mkdir -p "$N8N_CONFIG_DIR"
-	cp -rf "$N8N_CONFIG_DIR/." "$APP_CONFIG_DIR"
-fi
+if [ ! -d "$APP_CONFIG_DIR" ] ; then mkdir -p "$APP_CONFIG_DIR"; fi
+if [ ! -d "$N8N_CONFIG_DIR" ] ; then mkdir -p "$N8N_CONFIG_DIR"; fi
+cp -rf "$N8N_CONFIG_DIR/." "$APP_CONFIG_DIR"
+
+config_push
 }
 
-
-
 # #########################################################################################################
 # ###
 #
-
 env_load
-
-# #########################################################################################################
 # ###
-#
+
 # if variable is null
 if [ ! -s "variable" ]; then echo -e "variable is null!" ; fi
-#True of the length if "STRING" is zero.
-
-# #########################################################################################################
-# ###
+# True of the length if "STRING" is zero.
 #
-if [ ! -d "$RENDER_DIR" ] ; then mkdir -p "$RENDER_DIR"; chown -R "$USER:$USER" "$RENDER_DIR"; fi
+if [ ! -d "$RENDER_DIR" ] ; then mkdir -p "$RENDER_DIR"; fi
+# if [ ! -d "$RENDER_DIR" ] ; then mkdir -p "$RENDER_DIR"; chown -R "$USER:$USER" "$RENDER_DIR"; fi
 # sudo chown -R $USER:$USER /opt/render/
-
-
-# #########################################################################################################
-# ###
-#
-git config user.email "valerian.borisovich@gmail.com"
-git config user.name "Valerian Borisovich"
-# git config credential.helper "store --file ~/.secrets"
-#
+if [ -f "$APP_BASE_DIR/.git/index.lock" ] ; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
 
 # #########################################################################################################
 # ###
 #
-if [ -f "$APP_BASE_DIR/.git/index.lock" ] ; then rm "$APP_BASE_DIR/.git/index.lock"; fi
-
-# #########################################################################################################
-# ###
-#
-
 #if [ ! -d "$APP_BASE_DIR" ] ; then
 #	echo -e "mkdir -p $APP_BASE_DIR";
 #	mkdir -p "$APP_BASE_DIR";
 #fi
-
 #if [ -d "$APP_BASE_DIR" ] ; then
 #	# ###   copy n8n distributive
 #	echo -e "   Copy n8n distr to '$APP_BASE_DIR'";
@@ -156,4 +147,6 @@ git checkout master
 #mkdir -p /opt/render/project/src/config && cp -rf /opt/render/.n8n/* /opt/render/project/src/config
 #mkdir -p $APP_CONFIG_DIR && cp -rf "$N8N_RENDER_DIR/.n8n/." "$APP_BASE_DIR/config"
 
+config_restore
 
+config_save
