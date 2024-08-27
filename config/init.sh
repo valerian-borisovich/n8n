@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
+set -euo pipefail
 # #########################################################################################################
 # ###
 #
 # echo -e "\033[38;2;0;255;02mStarted ./config/init.sh \033[0m"
-echo -e "\033[38;2;100;100;250m   start ./config/init.sh   \033[0m"
+echo -e "\033[38;2;100;100;250m"
+date +'%A %B %e %T %Y'
+echo -e "   start ./config/init.sh"
+echo -e "\033[0m"
 # #########################################################################################################
 # ###
 # $#   :number of positional parameters.
@@ -17,53 +21,88 @@ echo -e "\033[38;2;100;100;250m   start ./config/init.sh   \033[0m"
 #$HOSTNAME			current hostname
 # #########################################################################################################
 
+echo -e "\033[38;2;0;255;02m"
+
 # #########################################################################################################
 # ###
 #
-ALLOWED=.env,.config,.ctx,.defaults
+# ALLOWED=.defaults,.config,.env,.ctx
+ALLOWED=.defaults,.config,.env,.ctx,.env.render
 env_load()
 {
 IFS=',' read -a arr <<< "$ALLOWED"
-
-# ###    Print the split string using the loop
-for filename in "${arr[@]}"; do
-echo "filename: $filename"
-echo ""
+for filename in "${arr[@]}" ; do
+  # shellcheck disable=SC1073
+  if [ -f "$filename" ] ; then
+    echo -e "   load config: $filename"
+    # unset | grep -vE '^(#|$)' $filename >/dev/null 2>&1
+    export | grep -vE '^(#|$)' $filename >/dev/null 2>&1
+  fi
 done
 
-##### Grep lines not begin with string (e.g. #)
-grep -v '^#' $filename
+# echo "Show environment variables"
+# env | sort | less
+#
+# echo "   Show N8N variables:"
+# env  | sort | grep N8N
 
 }
 
-env_load
-exit 1
+# #########################################################################################################
+# ###
+#
+# ###   config to github
+config_push()
+{
+echo -e '   Config commit to github'
+git add "$APP_CONFIG_DIR/*"
+git commit -a -m "config update"
 
+# ###   Git push
+echo -e "   git push   =>   $GIT_USERNAME:$GIT_TOKEN@$GIT_REPO"
+# git push origin master
+
+git push --set-upstream "$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
+}
+
+# ###   config restore
+config_restore()
+{
+echo -e "   Config restore"
+if [ -d "$APP_CONFIG_DIR" ] ; then
+	cp -rf "$APP_CONFIG_DIR/." "$N8N_CONFIG_DIR"
+else
+	mkdir -p "$N8N_CONFIG_DIR"
+	cp -rf "$APP_CONFIG_DIR/." "$N8N_CONFIG_DIR"
+fi
+}
+
+# ###   config save
+config_save()
+{
+echo -e '   Config save'
+if [ -d "$APP_CONFIG_DIR" ] ; then
+	cp -rf "$N8N_CONFIG_DIR/." "$APP_CONFIG_DIR"
+else
+	mkdir -p "$N8N_CONFIG_DIR"
+	cp -rf "$N8N_CONFIG_DIR/." "$APP_CONFIG_DIR"
+fi
+}
+
+
+
+# #########################################################################################################
+# ###
+#
+
+env_load
+
+# #########################################################################################################
 # ###
 #
 # if variable is null
 if [ ! -s "variable" ]; then echo -e "variable is null!" ; fi
 #True of the length if "STRING" is zero.
-
-# #########################################################################################################
-# ###
-#
-ENV_FILE=.env.render.n8n
-#
-echo -e "\033[38;2;0;255;02m"
-
-# ### Load .env file
-if [ -f .env ]; then
-  set -a
-  echo "   Load .env file"
-  source .env
-  set +a
-fi
-
-# shellcheck disable=SC1090
-if [[ -f "./$ENV_FILE" ]] ; then set -a; echo "   Load './$ENV_FILE' file"; source "./$ENV_FILE"; set +a; fi
-# shellcheck disable=SC1090
-if [[ -f "../$ENV_FILE" ]] ; then set -a; echo "   Load '../$ENV_FILE' file"; source "../$ENV_FILE"; set +a; fi
 
 # #########################################################################################################
 # ###
@@ -114,36 +153,7 @@ cd "$APP_BASE_DIR"
 echo -e "git checkout master"
 git checkout master
 
-# ###   config restore
-echo -e "   Config restore"
-if [ -d "$APP_CONFIG_DIR" ] ; then
-	cp -rf "$APP_CONFIG_DIR/." "$N8N_CONFIG_DIR"
-else
-	mkdir -p "$N8N_CONFIG_DIR"
-	cp -rf "$APP_CONFIG_DIR/." "$N8N_CONFIG_DIR"
-fi
-
-# ###   config save
-echo -e '   Config save'
-if [ -d "$APP_CONFIG_DIR" ] ; then
-	cp -rf "$N8N_CONFIG_DIR/." "$APP_CONFIG_DIR"
-else
-	mkdir -p "$N8N_CONFIG_DIR"
-	cp -rf "$N8N_CONFIG_DIR/." "$APP_CONFIG_DIR"
-fi
-
 #mkdir -p /opt/render/project/src/config && cp -rf /opt/render/.n8n/* /opt/render/project/src/config
 #mkdir -p $APP_CONFIG_DIR && cp -rf "$N8N_RENDER_DIR/.n8n/." "$APP_BASE_DIR/config"
-
-# ###   config to github
-echo -e '   Config commit to github'
-git add "$APP_CONFIG_DIR/*"
-git commit -a -m "config update"
-
-# ###   Git push
-echo -e "   git push   =>   $GIT_USERNAME:$GIT_TOKEN@$GIT_REPO"
-# git push origin master
-
-git push --set-upstream "$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
 
 
