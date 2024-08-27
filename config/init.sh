@@ -3,8 +3,47 @@
 # ###
 #
 # echo -e "\033[38;2;0;255;02mStarted ./config/init.sh \033[0m"
-echo -e "\033[38;2;100;100;250m   Started ./config/init.sh   \033[0m"
-echo -e "\033[38;2;155;155;255m   Started ./config/init.sh   \033[0m"
+echo -e "\033[38;2;100;100;250m   start ./config/init.sh   \033[0m"
+# #########################################################################################################
+# ###
+# $#   :number of positional parameters.
+# $?   :most recent foreground pipeline exit status.
+# $-   :current options set for the shell.
+# $$   :pid of the current shell (not subshell).
+# $!   :is the PID of the most recent background command.
+# $_   :last argument of the previously executed command, or the path of the bash script.
+# $PWD					current directory
+#$USER					current username
+#$HOSTNAME			current hostname
+# #########################################################################################################
+
+# #########################################################################################################
+# ###
+#
+ALLOWED=.env,.config,.ctx,.defaults
+env_load()
+{
+IFS=',' read -a arr <<< "$ALLOWED"
+
+# ###    Print the split string using the loop
+for filename in "${arr[@]}"; do
+echo "filename: $filename"
+echo ""
+done
+
+##### Grep lines not begin with string (e.g. #)
+grep -v '^#' $filename
+
+}
+
+env_load
+exit 1
+
+# ###
+#
+# if variable is null
+if [ ! -s "variable" ]; then echo -e "variable is null!" ; fi
+#True of the length if "STRING" is zero.
 
 # #########################################################################################################
 # ###
