@@ -2,25 +2,24 @@ import { Response } from 'express';
 import validator from 'validator';
 
 import { AuthService } from '@/auth/auth.service';
-import { Get, Post, RestController } from '@/decorators';
-import { PasswordUtility } from '@/services/password.utility';
-import { UserManagementMailer } from '@/user-management/email';
-import { PasswordResetRequest } from '@/requests';
-import { isSamlCurrentAuthenticationMethod } from '@/sso/sso-helpers';
-import { UserService } from '@/services/user.service';
-import { License } from '@/license';
 import { RESPONSE_ERROR_MESSAGES } from '@/constants';
-import { MfaService } from '@/mfa/mfa.service';
-import { Logger } from '@/logger';
-import { ExternalHooks } from '@/external-hooks';
-import { UrlService } from '@/services/url.service';
-import { InternalServerError } from '@/errors/response-errors/internal-server.error';
+import { UserRepository } from '@/databases/repositories/user.repository';
+import { Get, Post, RestController } from '@/decorators';
 import { BadRequestError } from '@/errors/response-errors/bad-request.error';
 import { ForbiddenError } from '@/errors/response-errors/forbidden.error';
+import { InternalServerError } from '@/errors/response-errors/internal-server.error';
 import { NotFoundError } from '@/errors/response-errors/not-found.error';
 import { UnprocessableRequestError } from '@/errors/response-errors/unprocessable.error';
-import { UserRepository } from '@/databases/repositories/user.repository';
 import { EventService } from '@/events/event.service';
+import { ExternalHooks } from '@/external-hooks';
+import { License } from '@/license';
+import { Logger } from '@/logger';
+import { MfaService } from '@/mfa/mfa.service';
+import { PasswordResetRequest } from '@/requests';
+import { PasswordUtility } from '@/services/password.utility';
+import { UserService } from '@/services/user.service';
+import { isSamlCurrentAuthenticationMethod } from '@/sso/sso-helpers';
+import { UserManagementMailer } from '@/user-management/email';
 
 @RestController()
 export class PasswordResetController {
@@ -31,7 +30,6 @@ export class PasswordResetController {
 		private readonly authService: AuthService,
 		private readonly userService: UserService,
 		private readonly mfaService: MfaService,
-		private readonly urlService: UrlService,
 		private readonly license: License,
 		private readonly passwordUtility: PasswordUtility,
 		private readonly userRepository: UserRepository,
@@ -108,14 +106,12 @@ export class PasswordResetController {
 
 		const url = this.authService.generatePasswordResetUrl(user);
 
-		const { id, firstName, lastName } = user;
+		const { id, firstName } = user;
 		try {
 			await this.mailer.passwordReset({
 				email,
 				firstName,
-				lastName,
 				passwordResetUrl: url,
-				domain: this.urlService.getInstanceBaseUrl(),
 			});
 		} catch (error) {
 			this.eventService.emit('email-failed', {

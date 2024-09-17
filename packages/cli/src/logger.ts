@@ -1,10 +1,9 @@
-import { Service } from 'typedi';
-import winston from 'winston';
 import callsites from 'callsites';
-import { inspect } from 'util';
-import { basename } from 'path';
-
 import { LoggerProxy, type IDataObject, LOG_LEVELS } from 'n8n-workflow';
+import { basename } from 'path';
+import { Service } from 'typedi';
+import { inspect } from 'util';
+import winston from 'winston';
 
 import config from '@/config';
 
@@ -36,7 +35,7 @@ export class Logger {
 
 		if (output.includes('console')) {
 			let format: winston.Logform.Format;
-			if (['debug', 'verbose'].includes(level)) {
+			if (level === 'debug') {
 				format = winston.format.combine(
 					winston.format.metadata(),
 					winston.format.timestamp(),
@@ -114,9 +113,5 @@ export class Logger {
 
 	debug(message: string, meta: object = {}): void {
 		this.log('debug', message, meta);
-	}
-
-	verbose(message: string, meta: object = {}): void {
-		this.log('verbose', message, meta);
 	}
 }

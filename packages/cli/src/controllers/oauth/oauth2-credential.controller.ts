@@ -1,14 +1,16 @@
 import type { ClientOAuth2Options, OAuth2CredentialData } from '@n8n/client-oauth2';
 import { ClientOAuth2 } from '@n8n/client-oauth2';
 import { Response } from 'express';
-import pkceChallenge from 'pkce-challenge';
-import * as qs from 'querystring';
 import omit from 'lodash/omit';
 import set from 'lodash/set';
 import split from 'lodash/split';
-import { Get, RestController } from '@/decorators';
 import { jsonStringify } from 'n8n-workflow';
+import pkceChallenge from 'pkce-challenge';
+import * as qs from 'querystring';
+
+import { Get, RestController } from '@/decorators';
 import { OAuthRequest } from '@/requests';
+
 import { AbstractOAuthController, type CsrfStateParam } from './abstract-oauth.controller';
 import { GENERIC_OAUTH2_CREDENTIALS_WITH_EDITABLE_SCOPE as GENERIC_OAUTH2_CREDENTIALS_WITH_EDITABLE_SCOPE } from '../../constants';
 
@@ -71,7 +73,7 @@ export class OAuth2CredentialController extends AbstractOAuthController {
 		const oAuthObj = new ClientOAuth2(oAuthOptions);
 		const returnUri = oAuthObj.code.getUri();
 
-		this.logger.verbose('OAuth2 authorization url created for credential', {
+		this.logger.debug('OAuth2 authorization url created for credential', {
 			userId: req.user.id,
 			credentialId: credential.id,
 		});
@@ -172,7 +174,7 @@ export class OAuth2CredentialController extends AbstractOAuthController {
 			delete decryptedDataOriginal.csrfSecret;
 			await this.encryptAndSaveData(credential, decryptedDataOriginal);
 
-			this.logger.verbose('OAuth2 callback successful for credential', {
+			this.logger.debug('OAuth2 callback successful for credential', {
 				credentialId,
 			});
 

@@ -1,18 +1,17 @@
-import { Container } from 'typedi';
 import { response as Response } from 'express';
 import nock from 'nock';
 import { parse as parseQs } from 'querystring';
+import { Container } from 'typedi';
 
-import type { CredentialsEntity } from '@/databases/entities/credentials-entity';
-import type { User } from '@/databases/entities/User';
-import { CredentialsHelper } from '@/credentials-helper';
 import { OAuth2CredentialController } from '@/controllers/oauth/oauth2-credential.controller';
-
-import { createOwner } from '@test-integration/db/users';
+import { CredentialsHelper } from '@/credentials-helper';
+import type { CredentialsEntity } from '@/databases/entities/credentials-entity';
+import type { User } from '@/databases/entities/user';
 import { saveCredential } from '@test-integration/db/credentials';
-import * as testDb from '@test-integration/testDb';
-import { setupTestServer } from '@test-integration/utils';
+import { createOwner } from '@test-integration/db/users';
+import * as testDb from '@test-integration/test-db';
 import type { SuperAgentTest } from '@test-integration/types';
+import { setupTestServer } from '@test-integration/utils';
 
 describe('OAuth2 API', () => {
 	const testServer = setupTestServer({ endpointGroups: ['oauth2'] });

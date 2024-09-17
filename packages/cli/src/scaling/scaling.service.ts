@@ -1,11 +1,19 @@
-import Container, { Service } from 'typedi';
+import { GlobalConfig } from '@n8n/config';
+import { InstanceSettings } from 'n8n-core';
 import { ApplicationError, BINARY_ENCODING, sleep, jsonStringify } from 'n8n-workflow';
+import type { IExecuteResponsePromiseData } from 'n8n-workflow';
+import Container, { Service } from 'typedi';
+
 import { ActiveExecutions } from '@/active-executions';
 import config from '@/config';
-import { Logger } from '@/logger';
-import { MaxStalledCountError } from '@/errors/max-stalled-count.error';
 import { HIGHEST_SHUTDOWN_PRIORITY, Time } from '@/constants';
+import { ExecutionRepository } from '@/databases/repositories/execution.repository';
 import { OnShutdown } from '@/decorators/on-shutdown';
+import { MaxStalledCountError } from '@/errors/max-stalled-count.error';
+import { EventService } from '@/events/event.service';
+import { Logger } from '@/logger';
+import { OrchestrationService } from '@/services/orchestration.service';
+
 import { JOB_TYPE_NAME, QUEUE_NAME } from './constants';
 import { JobProcessor } from './job-processor';
 import type {
@@ -18,17 +26,10 @@ import type {
 	QueueRecoveryContext,
 	PubSubMessage,
 } from './scaling.types';
-import type { IExecuteResponsePromiseData } from 'n8n-workflow';
-import { GlobalConfig } from '@n8n/config';
-import { ExecutionRepository } from '@/databases/repositories/execution.repository';
-import { InstanceSettings } from 'n8n-core';
-import { OrchestrationService } from '@/services/orchestration.service';
 
 @Service()
 export class ScalingService {
 	private queue: JobQueue;
-
-	private readonly instanceType = config.getEnv('generic.instanceType');
 
 	constructor(
 		private readonly logger: Logger,
@@ -38,6 +39,7 @@ export class ScalingService {
 		private readonly executionRepository: ExecutionRepository,
 		private readonly instanceSettings: InstanceSettings,
 		private readonly orchestrationService: OrchestrationService,
+		private readonly eventService: EventService,
 	) {}
 
 	// #region Lifecycle
@@ -66,6 +68,8 @@ export class ScalingService {
 				.on('leader-stepdown', () => this.stopQueueRecovery());
 		}
 
+		this.scheduleQueueMetrics();
+
 		this.logger.debug('[ScalingService] Queue setup completed');
 	}
 
@@ -89,8 +93,9 @@ export class ScalingService {
 		this.logger.debug('[ScalingService] Queue paused');
 
 		this.stopQueueRecovery();
+		this.stopQueueMetrics();
 
-		this.logger.debug('[ScalingService] Queue recovery stopped');
+		this.logger.debug('[ScalingService] Queue recovery and metrics stopped');
 
 		let count = 0;
 
@@ -112,6 +117,12 @@ export class ScalingService {
 	// #endregion
 
 	// #region Jobs
+
+	async getPendingJobCounts() {
+		const { active, waiting } = await this.queue.getJobCounts();
+
+		return { active, waiting };
+	}
 
 	async addJob(jobData: JobData, jobOptions: JobOptions) {
 		const { executionId } = jobData;
@@ -198,9 +209,10 @@ export class ScalingService {
 			throw error;
 		});
 
-		if (this.instanceType === 'main') {
-			this.registerMainListeners();
-		} else if (this.instanceType === 'worker') {
+		const { instanceType } = this.instanceSettings;
+		if (instanceType === 'main' || instanceType === 'webhook') {
+			this.registerMainOrWebhookListeners();
+		} else if (instanceType === 'worker') {
 			this.registerWorkerListeners();
 		}
 	}
@@ -235,9 +247,9 @@ export class ScalingService {
 	}
 
 	/**
-	 * Register listeners on a `main` process for Bull queue events.
+	 * Register listeners on a `main` or `webhook` process for Bull queue events.
 	 */
-	private registerMainListeners() {
+	private registerMainOrWebhookListeners() {
 		this.queue.on('global:progress', (_jobId: JobId, msg: unknown) => {
 			if (!this.isPubSubMessage(msg)) return;
 
@@ -246,6 +258,11 @@ export class ScalingService {
 				this.activeExecutions.resolveResponsePromise(msg.executionId, decodedResponse);
 			}
 		});
+
+		if (this.isQueueMetricsEnabled) {
+			this.queue.on('global:completed', () => this.jobCounters.completed++);
+			this.queue.on('global:failed', () => this.jobCounters.failed++);
+		}
 	}
 
 	private isPubSubMessage(candidate: unknown): candidate is PubSubMessage {
@@ -277,10 +294,53 @@ export class ScalingService {
 	}
 
 	private assertWorker() {
-		if (this.instanceType === 'worker') return;
+		if (this.instanceSettings.instanceType === 'worker') return;
 
 		throw new ApplicationError('This method must be called on a `worker` instance');
 	}
+
+	// #region Queue metrics
+
+	/** Counters for completed and failed jobs, reset on each interval tick. */
+	private readonly jobCounters = { completed: 0, failed: 0 };
+
+	/** Interval for collecting queue metrics to expose via Prometheus. */
+	private queueMetricsInterval: NodeJS.Timer | undefined;
+
+	get isQueueMetricsEnabled() {
+		return (
+			this.globalConfig.endpoints.metrics.includeQueueMetrics &&
+			this.instanceSettings.instanceType === 'main' &&
+			!this.orchestrationService.isMultiMainSetupEnabled
+		);
+	}
+
+	/** Set up an interval to collect queue metrics and emit them in an event. */
+	private scheduleQueueMetrics() {
+		if (!this.isQueueMetricsEnabled || this.queueMetricsInterval) return;
+
+		this.queueMetricsInterval = setInterval(async () => {
+			const pendingJobCounts = await this.getPendingJobCounts();
+
+			this.eventService.emit('job-counts-updated', {
+				...pendingJobCounts, // active, waiting
+				...this.jobCounters, // completed, failed
+			});
+
+			this.jobCounters.completed = 0;
+			this.jobCounters.failed = 0;
+		}, this.globalConfig.endpoints.metrics.queueMetricsInterval * Time.seconds.toMilliseconds);
+	}
+
+	/** Stop collecting queue metrics. */
+	private stopQueueMetrics() {
+		if (this.queueMetricsInterval) {
+			clearInterval(this.queueMetricsInterval);
+			this.queueMetricsInterval = undefined;
+		}
+	}
+
+	// #endregion
 
 	// #region Queue recovery
 

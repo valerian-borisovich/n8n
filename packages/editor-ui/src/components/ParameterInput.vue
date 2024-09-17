@@ -40,6 +40,7 @@ import { hasExpressionMapping, isValueExpression } from '@/utils/nodeTypesUtils'
 import { isResourceLocatorValue } from '@/utils/typeGuards';
 
 import {
+	APP_MODALS_ELEMENT_ID,
 	CORE_NODES_CATEGORY,
 	CUSTOM_API_CALL_KEY,
 	HTML_NODE_TYPE,
@@ -940,6 +941,14 @@ watch(remoteParameterOptionsLoading, () => {
 	tempValue.value = displayValue.value as string;
 });
 
+// Focus input field when changing from fixed value to expression
+watch(isModelValueExpression, async (isExpression, wasExpression) => {
+	if (isExpression && !wasExpression) {
+		await nextTick();
+		inputField.value?.focus();
+	}
+});
+
 onUpdated(async () => {
 	await nextTick();
 
@@ -1037,7 +1046,7 @@ onUpdated(async () => {
 			>
 				<el-dialog
 					:model-value="codeEditDialogVisible"
-					append-to-body
+					:append-to="`#${APP_MODALS_ELEMENT_ID}`"
 					width="80%"
 					:title="`${i18n.baseText('codeEdit.edit')} ${$locale
 						.nodeText()

@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 
-import { Service } from 'typedi';
 import { ActiveWorkflows, NodeExecuteFunctions } from 'n8n-core';
-
 import type {
 	ExecutionError,
 	IDeferredPromise,
@@ -25,30 +23,31 @@ import {
 	WebhookPathTakenError,
 	ApplicationError,
 } from 'n8n-workflow';
+import { Service } from 'typedi';
 
-import type { IWorkflowDb } from '@/Interfaces';
-import * as WebhookHelpers from '@/webhooks/webhook-helpers';
-import * as WorkflowExecuteAdditionalData from '@/workflow-execute-additional-data';
-
-import type { WorkflowEntity } from '@db/entities/workflow-entity';
+import { ActivationErrorsService } from '@/activation-errors.service';
 import { ActiveExecutions } from '@/active-executions';
-import { ExecutionService } from './executions/execution.service';
 import {
 	STARTING_NODES,
 	WORKFLOW_REACTIVATE_INITIAL_TIMEOUT,
 	WORKFLOW_REACTIVATE_MAX_TIMEOUT,
 } from '@/constants';
-import { NodeTypes } from '@/node-types';
+import type { WorkflowEntity } from '@/databases/entities/workflow-entity';
+import { WorkflowRepository } from '@/databases/repositories/workflow.repository';
+import { OnShutdown } from '@/decorators/on-shutdown';
 import { ExternalHooks } from '@/external-hooks';
-import { WebhookService } from '@/webhooks/webhook.service';
-import { Logger } from './logger';
-import { WorkflowRepository } from '@db/repositories/workflow.repository';
+import type { IWorkflowDb } from '@/interfaces';
+import { NodeTypes } from '@/node-types';
+import { ActiveWorkflowsService } from '@/services/active-workflows.service';
 import { OrchestrationService } from '@/services/orchestration.service';
-import { ActivationErrorsService } from '@/activation-errors.service';
-import { ActiveWorkflowsService } from '@/services/activeWorkflows.service';
+import * as WebhookHelpers from '@/webhooks/webhook-helpers';
+import { WebhookService } from '@/webhooks/webhook.service';
+import * as WorkflowExecuteAdditionalData from '@/workflow-execute-additional-data';
 import { WorkflowExecutionService } from '@/workflows/workflow-execution.service';
 import { WorkflowStaticDataService } from '@/workflows/workflow-static-data.service';
-import { OnShutdown } from '@/decorators/on-shutdown';
+
+import { ExecutionService } from './executions/execution.service';
+import { Logger } from './logger';
 
 interface QueuedActivation {
 	activationMode: WorkflowActivateMode;
@@ -95,7 +94,7 @@ export class ActiveWorkflowManager {
 	 */
 	async removeAll() {
 		let activeWorkflowIds: string[] = [];
-		this.logger.verbose('Call to remove all active workflows received (removeAll)');
+		this.logger.debug('Call to remove all active workflows received (removeAll)');
 
 		activeWorkflowIds.push(...this.activeWorkflows.allActiveWorkflows());
 
@@ -437,7 +436,7 @@ export class ActiveWorkflowManager {
 				});
 
 				if (wasActivated) {
-					this.logger.verbose(`Successfully started workflow ${dbWorkflow.display()}`, {
+					this.logger.debug(`Successfully started workflow ${dbWorkflow.display()}`, {
 						workflowName: dbWorkflow.name,
 						workflowId: dbWorkflow.id,
 					});
@@ -469,7 +468,7 @@ export class ActiveWorkflowManager {
 			}
 		}
 
-		this.logger.verbose('Finished activating workflows (startup)');
+		this.logger.debug('Finished activating workflows (startup)');
 	}
 
 	async clearAllActivationErrors() {
@@ -800,7 +799,7 @@ export class ActiveWorkflowManager {
 				getPollFunctions,
 			);
 
-			this.logger.verbose(`Workflow ${dbWorkflow.display()} activated`, {
+			this.logger.debug(`Workflow ${dbWorkflow.display()} activated`, {
 				workflowId: dbWorkflow.id,
 				workflowName: dbWorkflow.name,
 			});

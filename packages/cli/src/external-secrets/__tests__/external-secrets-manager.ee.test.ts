@@ -1,18 +1,19 @@
-import { Container } from 'typedi';
+import { mock } from 'jest-mock-extended';
 import { Cipher } from 'n8n-core';
-import { SettingsRepository } from '@db/repositories/settings.repository';
-import type { ExternalSecretsSettings } from '@/Interfaces';
-import { License } from '@/license';
+import { Container } from 'typedi';
+
+import { SettingsRepository } from '@/databases/repositories/settings.repository';
 import { ExternalSecretsManager } from '@/external-secrets/external-secrets-manager.ee';
 import { ExternalSecretsProviders } from '@/external-secrets/external-secrets-providers.ee';
-import { mockInstance } from '@test/mocking';
+import type { ExternalSecretsSettings } from '@/interfaces';
+import { License } from '@/license';
 import {
 	DummyProvider,
 	ErrorProvider,
 	FailedProvider,
 	MockProviders,
-} from '@test/ExternalSecrets/utils';
-import { mock } from 'jest-mock-extended';
+} from '@test/external-secrets/utils';
+import { mockInstance } from '@test/mocking';
 
 describe('External Secrets Manager', () => {
 	const connectedDate = '2023-08-01T12:32:29.000Z';

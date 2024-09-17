@@ -1,11 +1,12 @@
-import { Container } from 'typedi';
 import type { EntitySubscriberInterface, UpdateEvent } from '@n8n/typeorm';
 import { EventSubscriber } from '@n8n/typeorm';
 import { ApplicationError, ErrorReporterProxy } from 'n8n-workflow';
+import { Container } from 'typedi';
+
 import { Logger } from '@/logger';
 
 import { Project } from '../entities/project';
-import { User } from '../entities/User';
+import { User } from '../entities/user';
 import { UserRepository } from '../repositories/user.repository';
 
 @EventSubscriber()

@@ -11,6 +11,7 @@ import { createExpressionTelemetryPayload } from '@/utils/telemetryUtils';
 import { useTelemetry } from '@/composables/useTelemetry';
 import type { Segment } from '@/types/expressions';
 import type { INodeProperties } from 'n8n-workflow';
+import { NodeConnectionType } from 'n8n-workflow';
 import { outputTheme } from './ExpressionEditorModal/theme';
 import ExpressionOutput from './InlineExpressionEditor/ExpressionOutput.vue';
 import RunDataSchema from './RunDataSchema.vue';
@@ -19,6 +20,8 @@ import { useI18n } from '@/composables/useI18n';
 import { useDebounce } from '@/composables/useDebounce';
 import DraggableTarget from './DraggableTarget.vue';
 import { dropInEditor } from '@/plugins/codemirror/dragAndDrop';
+
+import { APP_MODALS_ELEMENT_ID } from '@/constants';
 
 type Props = {
 	parameter: INodeProperties;
@@ -122,8 +125,8 @@ async function onDrop(expression: string, event: MouseEvent) {
 
 <template>
 	<el-dialog
-		width="calc(100vw - var(--spacing-3xl))"
-		append-to-body
+		width="calc(100% - var(--spacing-3xl))"
+		:append-to="`#${APP_MODALS_ELEMENT_ID}`"
 		:class="$style.modal"
 		:model-value="dialogVisible"
 		:before-close="closeDialog"
@@ -148,9 +151,9 @@ async function onDrop(expression: string, event: MouseEvent) {
 					:class="$style.schema"
 					:search="appliedSearch"
 					:nodes="parentNodes"
-					mapping-enabled
+					:mapping-enabled="!isReadOnly"
+					:connection-type="NodeConnectionType.Main"
 					pane-type="input"
-					connection-type="main"
 				/>
 			</div>
 
