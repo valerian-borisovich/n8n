@@ -2,10 +2,10 @@
 # #########################################################################################################
 # ###
 #
-# set -euo pipefail
+set -euo pipefail
 #
 # ### store current directory
-pushd .
+# pushd .
 #
 # #########################################################################################################
 # ###
@@ -33,6 +33,8 @@ echo -e "\033[0m"
 # $PWD					current directory
 # $USER					current username
 # $HOSTNAME			current hostname
+#HOST_IP=$(ip -4 route list match 0/0 | awk '{print $3}')
+#echo "Host ip is $HOST_IP"
 # ###    Full path of the current script
 #THIS=$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || echo $0);
 # ### The directory where current script resides
