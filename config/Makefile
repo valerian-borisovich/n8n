@@ -14,13 +14,13 @@ SHELL:=/usr/bin/bash
 
 nullstring =
 
-log_ok = @echo -e '\033[38;2;0;255;02m$1\033[0m'
-log_cmd = @echo -e '\033[38;2;155;155;255m$1\033[0m'
-log_inf = @echo -e '\033[38;2;100;100;250m$1\033[0m'
-log_warning = @echo -e '\033[38;255;0;0;02m$1\033[0m'
-log_err = @echo -e '\033[38;255;0;0;02m$1\033[0m'
-log_achtung = @echo -e '\033[38;255;0;0;02m$1\033[0m'
-
+log_ok = @echo -e '\033[38;2;0;255;32m$1\033[0m'
+log_cmd = @echo -e '\033[38;2;155;155;32m$1\033[0m'
+log_inf = @echo -e '\033[38;2;100;100;32m$1\033[0m'
+log_warning = @echo -e '\033[38;255;0;0;32m$1\033[0m'
+log_err = @echo -e '\033[38;255;0;0;32m$1\033[0m'
+log_achtung = @echo -e '\033[38;255;0;0;32m$1\033[0m'
+log_achtung = @echo -e '\033[38;255;0;0;32m1\033[0m'
 
 # all: hooks install build init serve
 # default: init

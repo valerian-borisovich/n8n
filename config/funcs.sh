@@ -3,7 +3,7 @@
 # ###
 #
 # echo -e "\033[38;2;0;255;02mStarted ./config/init.sh \033[0m"
-echo -e "\033[38;2;100;100;250m   start ./config/init.sh   \033[0m"
+echo -e "\033[38;2;100;100;32m   start ./config/init.sh   \033[0m"
 # #########################################################################################################
 # ###
 # $#   :number of positional parameters.

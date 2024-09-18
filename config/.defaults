@@ -8,9 +8,15 @@ NODE_VERSION=20.16
 #
 APP_BASE_DIR=/opt/render/project/src
 APP_CONFIG_DIR=/opt/render/project/src/config
+# ###
+APP_ALLOWED_CONFIGS=.defaults,.config,.env,.ctx,.env.render
 
+# ########################################################################################################
 # ###
 #
+APP_GITHUB_EMAIL=valerian.borisovich@gmail.com
+APP_GITHUB_USER="Valerian Borisovich"
+# ###
 GIT_USERNAME=valerian-borisovich
 GIT_EMAIL=valerian.borisovich@gmail.com
 GIT_REPO=github.com/valerian-borisovich/n8n.git
