@@ -132,18 +132,16 @@ config_push() {
   APP_CONFIG_DIR="$RENDER_REPO_ROOT/config"
 
   # ###   Git commit
-  #
-  echo -e '   Config commit to github'
-  cp -rf "$N8N_RENDER_DIR/.n8n/." "$APP_BASE_DIR/config"
-  git add --update --force "$APP_BASE_DIR/config/*"
+  #echo -e '   Config commit to github'
+  #cp -rf "$N8N_RENDER_DIR/.n8n/." "$APP_BASE_DIR/config"
+  git add --update --force "$APP_BASE_DIR/*"
   git commit -a -m "config update"
 
   # ###   Git push
-  #
   echo -e "   Config git push   =>   $GIT_USERNAME:$GIT_TOKEN@$GIT_REPO"
   # git push origin master
   #git push --set-upstream "$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
-  git push --set-upstream "$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
+  git push --set-upstream "https://$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
 
 }
 
