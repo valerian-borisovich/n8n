@@ -2,26 +2,36 @@ usr/bin/env bash
 # #########################################################################################################
 # ###
 #
-set -euo pipefail
-#
+#set -euo pipefail
+
+
 # ### store current directory
 # pushd .
 #
+
 # #########################################################################################################
 # ###
 #
 APP_ALLOWED_CONFIGS=.defaults,.config,.env,.ctx,.env.render
+
 # ###
 THIS=$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || echo $0)
 APP_INIT_SCRIPT_DIR=$(dirname "${THIS}")
-export APP_INIT_SCRIPT_DIR
 APP_INIT_SCRIPT_STARTED=$(date +'%A %B %e %T %Y')
+
 export APP_INIT_SCRIPT_STARTED
+export APP_INIT_SCRIPT_DIR
+
 # ###
+
+# #########################################################################################################
+# ###
+#
 echo -e "\033[38;2;100;100;32m"
 echo -e "   $APP_INIT_SCRIPT_STARTED"
 echo -e "   Started $PWD/init.sh"
 echo -e "\033[0m"
+
 # #########################################################################################################
 # ###
 # $#   :number of positional parameters.
@@ -76,11 +86,14 @@ env_print() {
   # #########################################################################################################
 
   echo -e "\033[38;2;0;255;02m"
-  echo -e "   App current directory: $PWD"
-  echo "   App variables:"
+  echo -e "   work directory: $PWD"
+  echo "   APP_ variables:"
   env | sort | grep APP_
-  echo "   N8N variables:"
+  echo "   RENDER_ variables:"
+  env | sort | grep RENDER_
+  echo "   N8N_ variables:"
   env | sort | grep N8N_
+  # ###
   echo -e "\033[0m"
 }
 
@@ -95,13 +108,15 @@ config_push() {
   # ###   Git commit
   #
   echo -e '   Config commit to github'
-  git add "$APP_CONFIG_DIR/*"
+  cp -rf "$N8N_RENDER_DIR/.n8n/." "$APP_BASE_DIR/config"
+  git add --update --force "$APP_CONFIG_DIR/config/*"
   git commit -a -m "config update"
 
   # ###   Git push
   #
-  echo -e "   git push   =>   $GIT_USERNAME:$GIT_TOKEN@$GIT_REPO"
+  echo -e "   Config git push   =>   $GIT_USERNAME:$GIT_TOKEN@$GIT_REPO"
   # git push origin master
+  #git push --set-upstream "$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
   git push --set-upstream "$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
 
 }
@@ -109,17 +124,48 @@ config_push() {
 # ###   Config restore
 config_restore() {
   echo -e "   Config restore"
-  if [ ! -d "$APP_CONFIG_DIR" ]; then mkdir -p "$APP_CONFIG_DIR"; fi
-  if [ ! -d "$N8N_CONFIG_DIR" ]; then mkdir -p "$N8N_CONFIG_DIR"; fi
-  cp -rf "$APP_CONFIG_DIR/." "$N8N_CONFIG_DIR"
+
+  #if [ ! -d "$APP_CONFIG_DIR" ]; then mkdir -p "$APP_CONFIG_DIR"; fi
+
+  #if [ ! -d "$N8N_CONFIG_DIR" ]; then mkdir -p "$N8N_CONFIG_DIR"; fi
+  #cp -rf "$APP_CONFIG_DIR/." "$N8N_CONFIG_DIR"
+
+  #mkdir -p /opt/render/project/src/config
+  # cp -rf /opt/render/.n8n/* /opt/render/project/src/config
+  #mkdir -p $APP_CONFIG_DIR
+  # cp -rf "$N8N_RENDER_DIR/.n8n/." "$APP_BASE_DIR/config"
+
+  # ###
+  # APP_CONFIG_DIR=/COD/n8n/config
+  # RENDER_N8N_CONFIG_DIR="/opt/render/.n8n"
+
+  RENDER_N8N_CONFIG_DIR="$RENDER_DIR/.n8n"
+
+  if [ ! -d "$RENDER_N8N_CONFIG_DIR" ]; then
+    echo -e "   WARN! not exists dir: $RENDER_N8N_CONFIG_DIR, make dir";
+    mkdir -p "$RENDER_N8N_CONFIG_DIR";
+  fi
+
+  if [ ! -d "$APP_CONFIG_DIR" ]; then
+    echo -e "   WARN! not exists dir: $APP_CONFIG_DIR, use $APP_INIT_SCRIPT_DIR";
+    APP_CONFIG_DIR=$APP_INIT_SCRIPT_DIR;
+  fi
+
+  echo -e "   Copy config files: $APP_CONFIG_DIR => $RENDER_N8N_CONFIG_DIR";
+  #cp -rf "/COD/n8n/config/." "/opt/render/.n8n/"
+  cp -rf "$APP_CONFIG_DIR/." "$RENDER_N8N_CONFIG_DIR/"
 }
 
 # ###   Config save
 config_save() {
   echo -e '   Config save'
-  if [ ! -d "$APP_CONFIG_DIR" ]; then mkdir -p "$APP_CONFIG_DIR"; fi
-  if [ ! -d "$N8N_CONFIG_DIR" ]; then mkdir -p "$N8N_CONFIG_DIR"; fi
-  cp -rf "$N8N_CONFIG_DIR/." "$APP_CONFIG_DIR"
+  RENDER_N8N_CONFIG_DIR="$RENDER_DIR/.n8n"
+
+  if [ -d "$RENDER_N8N_CONFIG_DIR" ]; then
+    echo -e "   Copy config files: $RENDER_N8N_CONFIG_DIR => $APP_CONFIG_DIR";
+    # cp -rf "$RENDER_N8N_CONFIG_DIR/." "$APP_CONFIG_DIR/"
+    cp -rf "$RENDER_N8N_CONFIG_DIR/." "./"
+  fi
 
   config_push
 }
@@ -129,9 +175,12 @@ config_save() {
 #
 init_check() {
 
-  if [ ! -d "$RENDER_DIR" ]; then mkdir -p "$RENDER_DIR"; fi
-  # if [ ! -d "$RENDER_DIR" ] ; then mkdir -p "$RENDER_DIR"; chown -R "$USER:$USER" "$RENDER_DIR"; fi
-  # sudo chown -R $USER:$USER /opt/render/
+  if [ ! -d "$RENDER_DIR" ]; then
+    echo -e "   WARN! not exists dir: $RENDER_DIR, make dir";
+    mkdir -p "$RENDER_DIR";
+    # sudo chown -R $USER:$USER /opt/render/
+  fi
+
   if [ -f "$APP_BASE_DIR/.git/index.lock" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
 
   # #########################################################################################################
@@ -177,9 +226,6 @@ init_checkout() {
   # ###
   echo -e "Git checkout master"
   git checkout master
-
-  #mkdir -p /opt/render/project/src/config && cp -rf /opt/render/.n8n/* /opt/render/project/src/config
-  #mkdir -p $APP_CONFIG_DIR && cp -rf "$N8N_RENDER_DIR/.n8n/." "$APP_BASE_DIR/config"
 }
 
 # #########################################################################################################
@@ -187,10 +233,12 @@ init_checkout() {
 #
 env_load
 env_print
+
 init_check
-init_checkout
+# init_checkout
+
 config_restore
-config_save
+# config_save
 
 # ### restore directory
 #popd
