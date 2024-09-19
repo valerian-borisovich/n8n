@@ -126,7 +126,6 @@ config_restore() {
   #cp -rf "$RENDER_REPO_ROOT/config/." "$RENDER_N8N_CONFIG_DIR/"
 }
 
-
 # ###   Config to github
 #
 config_push() {

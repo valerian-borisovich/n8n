@@ -37,7 +37,7 @@ echo -e "\033[0m"
 # ###
 #
 env_load
-#env_print
+env_print
 
 init_check
 #init_checkout
