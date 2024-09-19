@@ -134,7 +134,8 @@ config_push() {
 
   # ###   Git commit
   #echo -e '   Config commit to github'
-  git add --update --force "$APP_CONFIG_DIR/*"
+  #git add --update --force "$APP_CONFIG_DIR/*"
+  git add --update --force "$RENDER_REPO_ROOT/config/*"
   git commit -a -m "config update"
 
   # ###   Git push
@@ -196,6 +197,23 @@ init_check() {
   fi
 
   # #########################################################################################################
+
+  if [ "$APP_GITHUB_EMAIL" ]; then
+    # ###
+    echo -e "Git config user"
+    git config user.email $APP_GITHUB_EMAIL
+    git config user.name $APP_GITHUB_USER
+  else
+    APP_GITHUB_EMAIL="valerian.borisovich@gmail.com"
+    APP_GITHUB_USER="Valerian Borisovich"
+    export APP_GITHUB_EMAIL
+    export APP_GITHUB_USER
+    git config user.email "valerian.borisovich@gmail.com"
+    git config user.name "Valerian Borisovich"
+    # git config credential.helper "store --file ~/.secrets"
+  fi
+
+  # #########################################################################################################
   # ###
   #
   if [ -f "$APP_BASE_DIR/.git/index.lock" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
@@ -208,14 +226,6 @@ init_checkout() {
   #echo -e "cd $APP_BASE_DIR"
   # shellcheck disable=SC2164
   #cd "$APP_BASE_DIR"
-
-  if [ "$APP_GITHUB_EMAIL" ]; then
-    # ###
-    echo -e "Git config user"
-    git config user.email $APP_GITHUB_EMAIL
-    git config user.name $APP_GITHUB_USER
-  # git config credential.helper "store --file ~/.secrets"
-  fi
 
   # ###
   echo -e "Git checkout master"

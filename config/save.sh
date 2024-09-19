@@ -33,6 +33,14 @@ echo -e "\033[0m"
 #
 source $APP_INIT_SCRIPT_DIR/helpers.sh
 
+force()
+{
+  git config user.email "valerian.borisovich@gmail.com"
+  git config user.name "Valerian Borisovich"
+  git add --update --force "$RENDER_REPO_ROOT/config/*"
+  git commit -a -m "config update"
+}
+
 # #########################################################################################################
 # ###
 #
