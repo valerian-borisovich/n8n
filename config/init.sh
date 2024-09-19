@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+usr/bin/env bash
 # #########################################################################################################
 # ###
 #
@@ -164,13 +164,15 @@ init_checkout() {
   # shellcheck disable=SC2164
   #cd "$APP_BASE_DIR"
 
-  # ###
-  echo -e "Git config user"
-  # git config user.email "valerian.borisovich@gmail.com"
-  # git config user.name "Valerian Borisovich"
-  git config user.email $APP_GITHUB_EMAIL
-  git config user.name $APP_GITHUB_USER
+  if [ "$APP_GITHUB_EMAIL" ]; then
+    # ###
+    echo -e "Git config user"
+    # git config user.email "valerian.borisovich@gmail.com"
+    # git config user.name "Valerian Borisovich"
+    git config user.email $APP_GITHUB_EMAIL
+    git config user.name $APP_GITHUB_USER
   # git config credential.helper "store --file ~/.secrets"
+  fi
 
   # ###
   echo -e "Git checkout master"
@@ -184,18 +186,11 @@ init_checkout() {
 # ###
 #
 env_load
-
 env_print
-
-exit
-
 init_check
-
 init_checkout
-
 config_restore
-
 config_save
 
 # ### restore directory
-popd
+#popd
