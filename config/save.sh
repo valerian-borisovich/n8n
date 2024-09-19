@@ -43,6 +43,6 @@ init_check
 #init_checkout
 
 # config_restore
+
 config_save
-
-
+config_push

@@ -129,12 +129,12 @@ config_restore() {
 # ###   Config to github
 #
 config_push() {
-  APP_CONFIG_DIR="$RENDER_REPO_ROOT/config"
+  # APP_CONFIG_DIR="$RENDER_REPO_ROOT/config"
+  APP_CONFIG_DIR="$APP_INIT_SCRIPT_DIR"
 
   # ###   Git commit
   #echo -e '   Config commit to github'
-  #cp -rf "$N8N_RENDER_DIR/.n8n/." "$APP_BASE_DIR/config"
-  git add --update --force "$APP_BASE_DIR/*"
+  git add --update --force "$APP_CONFIG_DIR/*"
   git commit -a -m "config update"
 
   # ###   Git push
@@ -142,13 +142,13 @@ config_push() {
   # git push origin master
   #git push --set-upstream "$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
   git push --set-upstream "https://$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
-
 }
 
 # ###   Config save
 config_save() {
   RENDER_N8N_CONFIG_DIR="$RENDER_ROOT/.n8n"
-  APP_CONFIG_DIR="$RENDER_REPO_ROOT/config"
+  #APP_CONFIG_DIR="$RENDER_REPO_ROOT/config"
+  APP_CONFIG_DIR="$APP_INIT_SCRIPT_DIR"
 
   if [ -d "$RENDER_N8N_CONFIG_DIR" ]; then
     echo -e "   Copy config files: $RENDER_N8N_CONFIG_DIR => $APP_CONFIG_DIR"
@@ -158,10 +158,10 @@ config_save() {
   fi
 
     # ###   save variables
-    echo "   save variables to '$RENDER_SRC_ROOT/config/env.md'"
-    env | sort >$RENDER_SRC_ROOT/config/env.md 2>&1
-
-  config_push
+    #echo "   save variables to '$RENDER_SRC_ROOT/config/env.md'"
+    #env | sort >$RENDER_SRC_ROOT/config/env.md 2>&1
+    echo "   save variables to '$APP_CONFIG_DIR/env.md'"
+    env | sort >$APP_CONFIG_DIR/env.md 2>&1
 }
 
 # #########################################################################################################
