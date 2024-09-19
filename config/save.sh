@@ -9,10 +9,6 @@
 # #########################################################################################################
 # ###
 #
-source ./helpers.sh
-
-# ###
-#
 THIS=$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || echo $0)
 APP_INIT_SCRIPT_DIR=$(dirname "${THIS}")
 APP_INIT_SCRIPT_STARTED=$(date +'%A %B %e %T %Y')
@@ -32,6 +28,10 @@ fi
 echo -e "\033[38;2;100;100;32m"
 echo -e "   Started '$THIS' at '$APP_INIT_SCRIPT_STARTED'"
 echo -e "\033[0m"
+
+# ###
+#
+source $APP_INIT_SCRIPT_DIR/helpers.sh
 
 # #########################################################################################################
 # ###
