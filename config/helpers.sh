@@ -138,7 +138,7 @@ config_push() {
   git commit -a -m "config update"
 
   # ###   Git push
-  echo -e "   Config git push   =>   $GIT_USERNAME:$GIT_TOKEN@$GIT_REPO"
+  echo -e "   Config git push   =>   https://$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO"
   # git push origin master
   #git push --set-upstream "$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
   git push --set-upstream "https://$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
