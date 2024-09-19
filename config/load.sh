@@ -30,7 +30,7 @@ fi
 # ###
 #
 echo -e "\033[38;2;100;100;32m"
-echo -e "   Started '$THIS' at $APP_INIT_SCRIPT_STARTED"
+echo -e "   Started '$THIS' at '$APP_INIT_SCRIPT_STARTED'"
 echo -e "\033[0m"
 
 # #########################################################################################################

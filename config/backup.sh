@@ -5,34 +5,26 @@ echo "Backup started"
 
 # ###
 #
-APP_CONFIG_DIR=/opt/render/project/src/config
-N8N_CONFIG_DIR=/opt/render/.n8n
+# . ./init.sh --source-only
+source ./init.sh --source-only
+
+# ###
+#
+# APP_CONFIG_DIR=$RENDER_SRC_ROOT/config
+APP_CONFIG_DIR="$RENDER_REPO_ROOT/config"
+RENDER_N8N_CONFIG_DIR="$RENDER_ROOT/.n8n"
 
 # #########################################################
 # ###
 #
-if [ "$N8N_CONFIG_DIR" == '' ]; then
-	export N8N_CONFIG_DIR=/opt/render/.n8n
+if [ -d "$RENDER_N8N_CONFIG_DIR" ]; then
+  echo -e "   Copy config files: $RENDER_N8N_CONFIG_DIR => $APP_CONFIG_DIR";
+  cp -rf "$RENDER_N8N_CONFIG_DIR/." "$APP_CONFIG_DIR"
+  #echo -e "   Copy config files: $RENDER_N8N_CONFIG_DIR => $RENDER_REPO_ROOT/config";
+  #cp -rf "$RENDER_N8N_CONFIG_DIR/." "$RENDER_REPO_ROOT/config/"
 fi
 
-# #########################################################
-# ###
-#
-echo -e "copy config"
-# find $N8N_CONFIG_DIR -type f -name "*" -print 0| xargs -0 -r -I file cp -v -p file --target-directory=$CONFIG_DIR
-#
-#cp -rf $N8N_CONFIG_DIR $CONFIG_DIR
-cp -rf /opt/render/.n8n/. /opt/render/project/src/config
+# config_push
 
-if [ "$CONFIG_DIR" == "$N8N_CONFIG_DIR" ]; then
-  echo -e 'config to github'
-	git add /opt/render/project/src/config/*
-	# git commit -m "!date! !time!"
-	git commit -a -m "config update"
-	# timeout /T 300
-  git push
-fi
-
-# #########################################################
-
+testim
 

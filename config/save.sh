@@ -30,19 +30,19 @@ fi
 # ###
 #
 echo -e "\033[38;2;100;100;32m"
-echo -e "   Started '$THIS' at $APP_INIT_SCRIPT_STARTED"
+echo -e "   Started '$THIS' at '$APP_INIT_SCRIPT_STARTED'"
 echo -e "\033[0m"
 
 # #########################################################################################################
 # ###
 #
 env_load
-env_print
+#env_print
 
 init_check
-init_checkout
+#init_checkout
 
-config_restore
-# config_save
+# config_restore
+config_save
 
 
