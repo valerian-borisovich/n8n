@@ -13,19 +13,16 @@
 # #########################################################################################################
 # ###
 #
-if [ ! -d "$APP_ALLOWED_CONFIGS" ]; then
-  APP_ALLOWED_CONFIGS=.defaults,.config,.env,.ctx,.env.render
-  export APP_ALLOWED_CONFIGS
-fi
-
-# ###
 THIS=$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || echo $0)
 APP_INIT_SCRIPT_DIR=$(dirname "${THIS}")
 APP_INIT_SCRIPT_STARTED=$(date +'%A %B %e %T %Y')
-
 export APP_INIT_SCRIPT_STARTED
 export APP_INIT_SCRIPT_DIR
-
+# ###
+if [ ! -d "$APP_ALLOWED_CONFIGS" ]; then
+  APP_ALLOWED_CONFIGS=.defaults,.config,.env,.ctx
+  export APP_ALLOWED_CONFIGS
+fi
 # ###
 
 # #########################################################################################################
@@ -58,7 +55,7 @@ echo -e "\033[0m"
 # ###
 #
 env_load() {
-  echo -e "\033[38;2;0;255;02m"
+  echo -e "\033[38;2;0;255;32m"
   IFS=',' read -a arr <<<"$APP_ALLOWED_CONFIGS"
   for filename in "${arr[@]}"; do
     # shellcheck disable=SC1073
@@ -81,7 +78,7 @@ env_print() {
   # echo "   Show N8N variables:"
   # env  | sort | grep N8N
   # ###
-  # env | sort >env.render.md 2>&1
+  env | sort >env.md 2>&1
 
   echo -e "\033[38;2;0;255;32m"
   echo -e "   work directory: $PWD"
@@ -122,32 +119,24 @@ config_push() {
 config_restore() {
   echo -e "   Config restore"
   RENDER_N8N_CONFIG_DIR="$RENDER_ROOT/.n8n"
-
   if [ ! -d "$RENDER_N8N_CONFIG_DIR" ]; then
     echo -e "   WARN! not exists dir: $RENDER_N8N_CONFIG_DIR, make dir";
     mkdir -p "$RENDER_N8N_CONFIG_DIR";
   fi
-
-  if [ ! -d "$APP_CONFIG_DIR" ]; then
-    echo -e "   WARN! not exists dir: $APP_CONFIG_DIR, use $APP_INIT_SCRIPT_DIR";
-    APP_CONFIG_DIR=$APP_INIT_SCRIPT_DIR;
-  fi
-
   #echo -e "   Copy config files: $APP_CONFIG_DIR => $RENDER_N8N_CONFIG_DIR";
   #cp -rf "$APP_CONFIG_DIR/." "$RENDER_N8N_CONFIG_DIR/"
   echo -e "   Copy config files: $RENDER_REPO_ROOT/config => $RENDER_N8N_CONFIG_DIR";
-  cp -rf "$APP_INIT_SCRIPT_DIR/." "$RENDER_N8N_CONFIG_DIR/"
+  cp -rf "$RENDER_REPO_ROOT/config/." "$RENDER_N8N_CONFIG_DIR/"
 }
 
 # ###   Config save
 config_save() {
   echo -e '   Config save'
   RENDER_N8N_CONFIG_DIR="$RENDER_ROOT/.n8n"
-
   if [ -d "$RENDER_N8N_CONFIG_DIR" ]; then
-    echo -e "   Copy config files: $RENDER_N8N_CONFIG_DIR => $APP_CONFIG_DIR";
-    #cp -rf "$RENDER_N8N_CONFIG_DIR/." "$APP_CONFIG_DIR/"
-    cp -rf "$RENDER_N8N_CONFIG_DIR/." "./"
+    # echo -e "   Copy config files: $RENDER_N8N_CONFIG_DIR => $APP_CONFIG_DIR";
+    echo -e "   Copy config files: $RENDER_N8N_CONFIG_DIR => $RENDER_REPO_ROOT/config";
+    cp -rf "$RENDER_N8N_CONFIG_DIR/." "$RENDER_REPO_ROOT/config/"
   fi
 
   config_push
@@ -164,11 +153,17 @@ init_check() {
     # sudo chown -R $RENDER_ROOT $USER:$USER
   fi
 
+  # if [ ! -d "$APP_CONFIG_DIR" ]; then
+  if [ ! -d "$RENDER_REPO_ROOT/config" ]; then
+    echo -e "   WARN! not exists dir: $RENDER_REPO_ROOT/config, use $APP_INIT_SCRIPT_DIR";
+    APP_CONFIG_DIR=$APP_INIT_SCRIPT_DIR;
+    export APP_CONFIG_DIR
+  fi
+
   # #########################################################################################################
   # ###
   #
   if [ -f "$APP_BASE_DIR/.git/index.lock" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
-
 }
 
 init_checkout() {
