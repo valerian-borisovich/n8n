@@ -5,8 +5,7 @@ import { $, echo, fs } from 'zx';
 $.verbose = true;
 process.env.FORCE_COLOR = '1';
 
-echo('🏗️ Started /conf/scripts/prepare.mjs ');
-
+echo('🏗️ Started scripts/prepare.mjs ');
 
 /*
 import {execSync} from 'node:child_process';
@@ -32,8 +31,12 @@ console.log('╰─────────────────────�
 console.log('\033[0m');
 */
 
-echo('🏗️ Running /conf/scripts/load.sh');
-// await $`/conf/scripts/load.sh`;
-// await $`./load.sh`;
-await $`./testim.sh`;
+echo('🏗️ chmod +x scripts/*.sh');
+await $`chmod +x scripts/*.sh`;
+
+echo('🏗️ Running scripts/testim.sh');
+await $`scripts/testim.sh`;
+
+echo('🏗️ Running scripts/load.sh');
+await $`scripts/load.sh`;
 
