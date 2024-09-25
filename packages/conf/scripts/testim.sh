@@ -41,7 +41,8 @@ config_save() {
   export RENDER_ROOT=/opt/render
   export RENDER_N8N_CONFIG_DIR="$RENDER_ROOT/.n8n"
   export RENDER_SRC_ROOT=/c/n8n
-  export APP_CONFIG_DIR=$RENDER_SRC_ROOT/packages/conf/latest
+  export APP_BASE_DIR=$RENDER_SRC_ROOT
+  export APP_CONFIG_DIR=$APP_BASE_DIR/packages/conf/latest
 
   echo -e "\033[0;0;32m"
   echo -e "   Config save $(date)"
@@ -58,22 +59,28 @@ config_save() {
   echo -e "\033[0m"
 }
 
-# #########################################################################################################
-# ###   Config upload
-#
 config_upload() {
   # ###
   export GITHUB_EMAIL="valerian.borisovich@gmail.com"
   export GITHUB_USERNAME="Valerian Borisovich"
   export RENDER_SRC_ROOT=/c/n8n
-  export APP_CONFIG_DIR=$RENDER_SRC_ROOT/packages/conf/latest
+  export APP_BASE_DIR=$RENDER_SRC_ROOT
+  export APP_CONFIG_DIR=$$APP_BASE_DIR/packages/conf/latest
 
+  # #########################################################################################################
+  # ###   Config upload
+  #
   echo -e "\033[0;0;32m"
   echo -e "   Config upload $(date)"
 
   # ###   Prepare
+  #
   git config user.email $GITHUB_EMAIL
   git config user.name $GITHUB_USERNAME
+  #
+  if [ -f "$APP_BASE_DIR/.git/index.lock" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
+  if [ -f "$APP_BASE_DIR/.git/hooks/pre-commit" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
+  if [ -f "$APP_BASE_DIR/.git/hooks/prepare-commit-msg" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
 
   # ###   Status
   git status
@@ -110,10 +117,9 @@ vars_save()
   # #########################################################
   # ###
   #
-  # RENDER_ROOT=/opt/render
-  # RENDER_N8N_CONFIG_DIR="$RENDER_ROOT/.n8n"
   export RENDER_SRC_ROOT=/c/n8n
-  export APP_CONFIG_DIR=$RENDER_SRC_ROOT/packages/conf/latest
+  export APP_BASE_DIR=$RENDER_SRC_ROOT
+  export APP_CONFIG_DIR=$APP_BASE_DIR/packages/conf/latest
 
   # #########################################################
   # ###   Save variables
@@ -157,3 +163,6 @@ env_load
 config_save
 
 vars_save
+
+config_upload
+
