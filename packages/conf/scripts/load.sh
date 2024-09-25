@@ -48,4 +48,13 @@ export APP_DEPLOY_DATETIME=$(date)
 env_load
 env_print
 
+# ###
+#
+init_check
+init_checkout
+
+# ###
+#
+config_restore
+# config_save
 
