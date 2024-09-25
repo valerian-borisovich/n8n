@@ -1,0 +1,36 @@
+{
+  "name": "conf",
+  "version": "1.10.0",
+  "scripts": {
+    "prepare": "node scripts/prepare.mjs",
+    "clean": "rimraf dist .turbo",
+    "dev": "pnpm watch",
+    "typecheck": "tsc --noEmit",
+    "build0": "tsc -p tsconfig.build.json",
+    "build": "/usr/bin/bash scripts/load.sh",
+    "format": "biome format --write src test",
+    "format:check": "biome ci src test",
+    "lint": "eslint .",
+    "lintfix": "eslint . --fix",
+    "watch": "tsc -p tsconfig.build.json --watch",
+    "test0": "jest",
+    "test": "/usr/bin/bash scripts/testim.sh",
+    "test:dev": "jest --watch"
+  },
+  "main": "dist/index.js",
+  "module": "src/index.ts",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "latest/**/*",
+    "scripts/**/*"
+  ],
+  "dependencies": {
+    "reflect-metadata": "0.2.2",
+    "typedi": "catalog:",
+    "@n8n/config": "latest",
+    "@repo/": "*",
+    "typescript": "*",
+    "zx": "^8.1.4"
+  }
+}

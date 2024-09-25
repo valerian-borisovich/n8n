@@ -1,0 +1,37 @@
+import { CacheConfig } from './configs/cache.config';
+import { CredentialsConfig } from './configs/credentials.config';
+import { DatabaseConfig } from './configs/database.config';
+import { EndpointsConfig } from './configs/endpoints.config';
+import { EventBusConfig } from './configs/event-bus.config';
+import { ExternalSecretsConfig } from './configs/external-secrets.config';
+import { ExternalStorageConfig } from './configs/external-storage.config';
+import { NodesConfig } from './configs/nodes.config';
+import { PublicApiConfig } from './configs/public-api.config';
+import { ScalingModeConfig } from './configs/scaling-mode.config';
+import { SentryConfig } from './configs/sentry.config';
+import { TemplatesConfig } from './configs/templates.config';
+import { UserManagementConfig } from './configs/user-management.config';
+import { VersionNotificationsConfig } from './configs/version-notifications.config';
+import { WorkflowsConfig } from './configs/workflows.config';
+export declare class GlobalConfig {
+    database: DatabaseConfig;
+    credentials: CredentialsConfig;
+    userManagement: UserManagementConfig;
+    versionNotifications: VersionNotificationsConfig;
+    publicApi: PublicApiConfig;
+    externalSecrets: ExternalSecretsConfig;
+    templates: TemplatesConfig;
+    eventBus: EventBusConfig;
+    nodes: NodesConfig;
+    externalStorage: ExternalStorageConfig;
+    workflows: WorkflowsConfig;
+    sentry: SentryConfig;
+    path: string;
+    host: string;
+    port: number;
+    listen_address: string;
+    protocol: 'http' | 'https';
+    endpoints: EndpointsConfig;
+    cache: CacheConfig;
+    queue: ScalingModeConfig;
+}
