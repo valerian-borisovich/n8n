@@ -14,6 +14,7 @@
     "build:backend": "turbo run build:backend",
     "build:frontend": "turbo run build:frontend",
     "build:nodes": "turbo run build:nodes",
+    "build:conf": "turbo run build:conf",
     "typecheck": "turbo typecheck",
     "dev": "turbo run dev --parallel --env-mode=loose --filter=!n8n-design-system --filter=!@n8n/chat",
     "dev:ai": "turbo run dev --parallel --env-mode=loose --filter=@n8n/nodes-langchain --filter=n8n --filter=n8n-core",
@@ -26,6 +27,7 @@
     "lint:backend": "turbo run lint:backend",
     "lint:nodes": "turbo run lint:nodes",
     "lint:frontend": "turbo run lint:frontend",
+    "lint:conf": "turbo run lint:conf",
     "optimize-svg": "find ./packages -name '*.svg' ! -name 'pipedrive.svg' -print0 | xargs -0 -P16 -L20 npx svgo",
     "start": "./config/load.sh && run-script-os",
     "start:default": "cd packages/cli/bin && ./n8n",
@@ -35,6 +37,7 @@
     "test:backend": "turbo run test:backend --concurrency=1",
     "test:frontend": "turbo run test:frontend --concurrency=1",
     "test:nodes": "turbo run test:nodes --concurrency=1",
+    "test:conf": "turbo run test:conf --concurrency=1",
     "watch": "turbo run watch --parallel",
     "webhook": "./packages/cli/bin/n8n webhook",
     "worker": "./packages/cli/bin/n8n worker"
@@ -59,7 +62,7 @@
     "ts-jest": "^29.1.1",
     "tsc-alias": "^1.8.7",
     "tsc-watch": "^6.0.4",
-    "turbo": "2.0.6",
+    "turbo": "latest",
     "typescript": "*",
     "zx": "^8.1.4"
   },

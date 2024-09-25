@@ -9,9 +9,6 @@
 # #########################################################################################################
 # ###
 #
-
-# ###
-#
 THIS=$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || echo $0)
 APP_INIT_SCRIPT_DIR=$(dirname "${THIS}")
 APP_INIT_SCRIPT_STARTED=$(date +'%A %B %e %T %Y')
@@ -32,13 +29,18 @@ echo -e "\033[38;2;100;100;32m"
 echo -e "   Started '$THIS' at '$APP_INIT_SCRIPT_STARTED'"
 echo -e "\033[0m"
 
-
 # ###
 #
 source $APP_INIT_SCRIPT_DIR/helpers.sh
 
-# #########################################################################################################
-export APP_DEPLOY_DATETIME=$(date)
+force()
+{
+  git config user.email "valerian.borisovich@gmail.com"
+  git config user.name "Valerian Borisovich"
+  git add --update --force "$RENDER_REPO_ROOT/config/*"
+  git commit -a -m "config update"
+}
+
 # #########################################################################################################
 # ###
 #
@@ -46,9 +48,9 @@ env_load
 env_print
 
 init_check
-init_checkout
+#init_checkout
 
-config_restore
-# config_save
+# config_restore
 
-
+config_save
+config_push
