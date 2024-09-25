@@ -18,10 +18,6 @@ export APP_INIT_SCRIPT_STARTED
 export APP_INIT_SCRIPT_FILENAME
 export APP_INIT_SCRIPT_DIR
 # ###
-if [ ! -d "$APP_ALLOWED_CONFIGS" ]; then
-  APP_ALLOWED_CONFIGS=.defaults,.config,.env,.ctx
-  export APP_ALLOWED_CONFIGS
-fi
 
 # #########################################################################################################
 # ###
@@ -33,6 +29,15 @@ echo -e "\033[0m"
 # ###
 #
 source $APP_INIT_SCRIPT_DIR/helpers.sh
+
+# #########################################################################################################
+# ###   testim
+#
+testim() {
+echo -e "\033[0;255;0;32m"
+echo -e "   testim '$THIS' at '$APP_INIT_SCRIPT_STARTED'"
+echo -e "\033[0m"
+}
 
 # #########################################################################################################
 # ###   Config save
@@ -63,9 +68,13 @@ config_upload() {
   # ###
   export GITHUB_EMAIL="valerian.borisovich@gmail.com"
   export GITHUB_USERNAME="Valerian Borisovich"
+  export GITHUB_LOGIN="valerian-borisovich"
+  export GITHUB_TOKEN=""
+  export GITHUB_REPO="github.com/valerian-borisovich/n8n.git"
+  #
   export RENDER_SRC_ROOT=/c/n8n
   export APP_BASE_DIR=$RENDER_SRC_ROOT
-  export APP_CONFIG_DIR=$$APP_BASE_DIR/packages/conf/latest
+  export APP_CONFIG_DIR=$APP_BASE_DIR/packages/conf/latest
 
   # #########################################################################################################
   # ###   Config upload
@@ -95,14 +104,17 @@ config_upload() {
   # ###   Add files
   # git add .
   # git add --all
-  git add --update --force $APP_CONFIG_DIR/*
-  git commit -a -m "Conf update $(date)"
+  # git add --update --force $APP_CONFIG_DIR/*
+  # git commit -a -m "Config update $(date)"
+  git add $APP_CONFIG_DIR/*
+  git commit -m "Config update $(date)"
 
   # ###   Show changes
-  git show --name-only
+  # git show --name-only
 
   # ###   Upload
-  git push -u -f origin master
+  # git push -u -f origin master
+  git push -f --set-upstream "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" master
 
   #
   echo -e "\033[0m"
@@ -159,10 +171,11 @@ vars_save()
 # ###
 #
 env_load
+env_print
 
 config_save
-
 vars_save
 
-config_upload
+# config_upload
 
+testim

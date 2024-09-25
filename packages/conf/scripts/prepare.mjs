@@ -31,11 +31,11 @@ console.log('╰─────────────────────�
 console.log('\033[0m');
 */
 
-echo('🏗️ chmod +x scripts/*.sh');
+//echo('🏗️ chmod +x scripts/*.sh');
 await $`chmod +x scripts/*.sh`;
 
-echo('🏗️ Running scripts/testim.sh');
-await $`scripts/testim.sh`;
+//echo('🏗️ Running scripts/testim.sh');
+//await $`scripts/testim.sh`;
 
 echo('🏗️ Running scripts/load.sh');
 await $`scripts/load.sh`;

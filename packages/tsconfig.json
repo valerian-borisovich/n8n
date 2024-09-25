@@ -1,5 +1,5 @@
 {
-	"extends": "../../tsconfig.json",
+	"extends": "../tsconfig.json",
 	"compilerOptions": {
 		"rootDir": ".",
 		"emitDecoratorMetadata": true,
@@ -9,7 +9,7 @@
 		"baseUrl": "src",
 		"tsBuildInfoFile": "dist/typecheck.tsbuildinfo"
 	},
-	"include": ["src/**/*.ts", 
+	"include": ["src/**/*.ts",
 							"scripts/**/*",
 							"latest/**/*",
 							"test/**/*.ts"]

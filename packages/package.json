@@ -6,8 +6,8 @@
     "clean": "rimraf dist .turbo",
     "dev": "pnpm watch",
     "typecheck": "tsc --noEmit",
-    "build0": "tsc -p tsconfig.build.json",
-    "build": "/usr/bin/bash scripts/load.sh",
+    "build": "tsc -p tsconfig.build.json",
+    "build1": "/usr/bin/bash scripts/load.sh",
     "format": "biome format --write src test",
     "format:check": "biome ci src test",
     "lint": "eslint .",
@@ -29,7 +29,6 @@
     "reflect-metadata": "0.2.2",
     "typedi": "catalog:",
     "@n8n/config": "latest",
-    "@repo/": "*",
     "typescript": "*",
     "zx": "^8.1.4"
   }
