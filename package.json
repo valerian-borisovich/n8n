@@ -3,10 +3,10 @@
   "version": "1.60.0",
   "private": true,
   "engines": {
-    "node": ">=20.15",
-    "pnpm": ">=9.5"
+    "node": ">=20.16",
+    "pnpm": ">=9.10"
   },
-  "packageManager": "pnpm@9.6.0",
+  "packageManager": "pnpm@9.10.0",
   "scripts": {
     "prepare": "node scripts/prepare.mjs",
     "preinstall": "node scripts/block-npm-install.js",

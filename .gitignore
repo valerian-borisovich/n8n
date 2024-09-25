@@ -1,25 +1,33 @@
+# ###
+#
 **/node_modules/
 **/.DS_Store
-**/.tmp
-**/tmp
-**/dist
+**/.tmp/
+**/tmp/
+**/dist/
+**/.turbo/
+# ###
+.env
+# ###
+**/.idea/
+**/.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.default.json
+# ###
+**/*.swp
+**/*.log
+# ###
+**/package-lock.json
+**/*.tsbuildinfo
+# ###
+nodelinter.config.json
+build-storybook.log
+
+# ###
+CHANGELOG-*.md
 coverage
 npm-debug.log*
 yarn.lock
 google-generated-credentials.json
 _START_PACKAGE
-.env
-**/.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.default.json
-nodelinter.config.json
-**/package-lock.json
-packages/**/.turbo
-.turbo
-*.tsbuildinfo
-*.swp
-CHANGELOG-*.md
 *.mdx
-build-storybook.log
-**/.idea
-
