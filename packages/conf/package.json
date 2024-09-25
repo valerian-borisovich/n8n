@@ -2,6 +2,7 @@
   "name": "conf",
   "version": "1.10.0",
   "scripts": {
+    "prepare": "node scripts/prepare.mjs",
     "clean": "rimraf dist .turbo",
     "dev": "pnpm watch",
     "typecheck": "tsc --noEmit",
@@ -22,6 +23,10 @@
   ],
   "dependencies": {
     "reflect-metadata": "0.2.2",
-    "typedi": "catalog:"
+    "typedi": "catalog:",
+    "@n8n/config": "latest",
+    "@repo/": "*",
+    "typescript": "*",
+    "zx": "^8.1.4"
   }
 }

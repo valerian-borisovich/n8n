@@ -38,17 +38,10 @@ echo -e "\033[0m"
 source $APP_INIT_SCRIPT_DIR/helpers.sh
 
 # #########################################################################################################
+# ###
+#
 export APP_DEPLOY_DATETIME=$(date)
+
 # #########################################################################################################
 # ###
 #
-env_load
-env_print
-
-init_check
-init_checkout
-
-config_restore
-# config_save
-
-

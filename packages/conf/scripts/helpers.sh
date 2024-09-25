@@ -93,8 +93,9 @@ env_print() {
   # ###
   # echo "   Show N8N variables:"
   # env  | sort | grep N8N
-
+  # ###
   echo -e "\033[38;2;0;255;32m"
+  # ###
   echo -e "   work directory: $PWD"
   echo "   APP_ variables:"
   env | sort | grep APP_
@@ -102,7 +103,6 @@ env_print() {
   env | sort | grep RENDER_
   echo "   N8N_ variables:"
   env | sort | grep N8N_
-
   # ###
   echo -e "\033[0m"
 }
@@ -131,8 +131,11 @@ config_restore() {
 config_push() {
   # APP_CONFIG_DIR="$RENDER_REPO_ROOT/config"
   APP_CONFIG_DIR="$APP_INIT_SCRIPT_DIR"
+  # ###
 
   # ###   Git commit
+  # ###
+
   #echo -e '   Config commit to github'
   #git add --update --force "$APP_CONFIG_DIR/*"
   git add --update --force "$RENDER_REPO_ROOT/config/*"
