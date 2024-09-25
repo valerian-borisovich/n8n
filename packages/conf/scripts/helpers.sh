@@ -96,15 +96,33 @@ env_print() {
   # ###
   echo -e "\033[38;2;0;255;32m"
   # ###
-  echo -e "   work directory: $PWD"
-  echo "   APP_ variables:"
+  echo -e "   APP PWD: $PWD"
+  echo "   APP vars:"
   env | sort | grep APP_
-  echo "   RENDER_ variables:"
+  echo "   RENDER vars:"
   env | sort | grep RENDER_
-  echo "   N8N_ variables:"
+  echo "   N8N vars:"
   env | sort | grep N8N_
   # ###
   echo -e "\033[0m"
+}
+
+env_save()
+{
+  # #########################################################
+  # ###
+  #
+  # APP_CONFIG_DIR=$RENDER_SRC_ROOT/config
+  APP_CONFIG_DIR="$RENDER_REPO_ROOT/config"
+  RENDER_N8N_CONFIG_DIR="$RENDER_ROOT/.n8n"
+
+  # #########################################################
+  # ###   save variables
+  #
+  #echo "   save variables to '$RENDER_SRC_ROOT/config/env.md'"
+  #env | sort >$RENDER_SRC_ROOT/config/env.md 2>&1
+  echo "   save variables to '$APP_CONFIG_DIR/env.md'"
+  env | sort >$APP_CONFIG_DIR/env.md 2>&1
 }
 
 # #########################################################################################################
@@ -146,6 +164,19 @@ config_push() {
   # git push origin master
   #git push --set-upstream "$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
   git push --set-upstream "https://$GIT_USERNAME:$GIT_TOKEN@$GIT_REPO" master
+}
+
+# ###   Config copy
+config_copy() {
+  RENDER_N8N_CONFIG_DIR="$RENDER_ROOT/.n8n"
+  APP_CONFIG_DIR="$APP_INIT_SCRIPT_DIR"
+
+  if [ -d "$RENDER_N8N_CONFIG_DIR" ]; then
+    echo -e "   Copy config files: $RENDER_N8N_CONFIG_DIR => $APP_CONFIG_DIR"
+    cp -rf "$RENDER_N8N_CONFIG_DIR/." "$APP_CONFIG_DIR"
+    #echo -e "   Copy config files: $RENDER_N8N_CONFIG_DIR => $RENDER_REPO_ROOT/config";
+    #cp -rf "$RENDER_N8N_CONFIG_DIR/." "$RENDER_REPO_ROOT/config/"
+  fi
 }
 
 # ###   Config save
