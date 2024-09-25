@@ -95,7 +95,7 @@ config_upload() {
   # ###   Add files
   # git add .
   # git add --all
-  git add --update --force "$APP_CONFIG_DIR/*"
+  git add --update --force $APP_CONFIG_DIR/*
   git commit -a -m "Conf update $(date)"
 
   # ###   Show changes
