@@ -62,10 +62,16 @@ config_upload() {
   # cd /opt/render/project/src
   #cd $APP_BASE_DIR
 
-  # ###   Prepare
+  # ###   Prepare github
   #
-  git config user.email $GITHUB_EMAIL
-  git config user.name $GITHUB_USERNAME
+  echo -e "   Prepare github: GITHUB_EMAIL: $GITHUB_EMAIL, GITHUB_USERNAME: $GITHUB_USERNAME"
+  #
+  git config --unset-all credential.helper
+  git config --global --unset-all credential.helper
+  git config --system --unset-all credential.helper
+  #
+  git config user.email "$GITHUB_EMAIL"
+  git config user.name "$GITHUB_USERNAME"
   #
   if [ -f "$APP_BASE_DIR/.git/index.lock" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
   if [ -f "$APP_BASE_DIR/.git/hooks/pre-commit" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
@@ -88,15 +94,12 @@ config_upload() {
   # git add --update --force $APP_CONFIG_DIR/*
   # git commit -a -m "Config update $(date)"
   git add $APP_CONFIG_DIR/*
-  git commit -m "Config update $APP_INIT_SCRIPT_STARTED"
-
+  git commit -a -m "Config update $APP_INIT_SCRIPT_STARTED"
   # ###   Show changes
   # git show --name-only
-
   # ###   Upload
   # git push -u -f origin master
-  git push -u -f https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO master
-
+  git push -u -f "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" master
   #
   echo -e "\033[0m"
 }

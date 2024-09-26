@@ -2,7 +2,7 @@ module.exports = {
 	/**
 	 * https://prettier.io/docs/en/options.html#semicolons
 	 */
-	semi: true,
+	semi: false,
 
 	/**
 	 * https://prettier.io/docs/en/options.html#trailing-commas
@@ -17,7 +17,7 @@ module.exports = {
 	/**
 	 * https://prettier.io/docs/en/options.html#tabs
 	 */
-	useTabs: true,
+	useTabs: false,
 
 	/**
 	 * https://prettier.io/docs/en/options.html#tab-width
@@ -37,7 +37,7 @@ module.exports = {
 	/**
 	 * https://prettier.io/docs/en/options.html#quote-props
 	 */
-	quoteProps: 'as-needed',
+	quoteProps: 'consistent',
 
 	/**
 	 * https://prettier.io/docs/en/options.html#end-of-line
