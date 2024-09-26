@@ -13,12 +13,14 @@
 THIS=$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || echo $0)
 APP_INIT_SCRIPT_FILENAME=$THIS
 APP_INIT_SCRIPT_DIR=$(dirname "${THIS}")
-APP_INIT_SCRIPT_STARTED=$(date +'%A %B %e %T %Y')
+# APP_INIT_SCRIPT_STARTED=$(date +'%A %B %e %T %Y')
+APP_INIT_SCRIPT_STARTED=$(date +'%Y.%m.%d %H:%M:%S.%N')
+#
 export APP_INIT_SCRIPT_STARTED
 export APP_INIT_SCRIPT_FILENAME
 export APP_INIT_SCRIPT_DIR
 
-cd "../$APP_INIT_SCRIPT_DIR"
+# cd "../$APP_INIT_SCRIPT_DIR"
 
 # #########################################################################################################
 # ###
@@ -37,7 +39,7 @@ config_save() {
 # ###   Config save
 #
   echo -e "\033[0;0;32m"
-  echo -e "   Config save $(date)"
+  echo -e "   Config save $APP_INIT_SCRIPT_STARTED"
   # ###
   if [ -d "$RENDER_N8N_CONFIG_DIR" ]; then
     echo -e "   Copy config files: $RENDER_N8N_CONFIG_DIR => $APP_CONFIG_DIR"
@@ -54,7 +56,7 @@ config_upload() {
   # ###   Config upload
   #
   echo -e "\033[0;0;32m"
-  echo -e "   Config upload $(date)"
+  echo -e "   Config upload $APP_INIT_SCRIPT_STARTED"
 
   # ###
   # cd /opt/render/project/src
@@ -71,10 +73,8 @@ config_upload() {
 
   # ###   Checkout
   git checkout master
-
   # ###   Status
   git status
-
   # ###   Pull
   # git pull
 
@@ -88,7 +88,7 @@ config_upload() {
   # git add --update --force $APP_CONFIG_DIR/*
   # git commit -a -m "Config update $(date)"
   git add $APP_CONFIG_DIR/*
-  git commit -m "Config update $(date)"
+  git commit -m "Config update $APP_INIT_SCRIPT_STARTED"
 
   # ###   Show changes
   # git show --name-only
