@@ -44,8 +44,11 @@ config_load() {
     mkdir -p "$RENDER_N8N_CONFIG_DIR"
   fi
   if [ -d "$RENDER_N8N_CONFIG_DIR" ]; then
-    echo -e "   Copy config files: $APP_CONFIG_DIR => $RENDER_N8N_CONFIG_DIR"
+    echo -e "   Copy configs $APP_CONFIG_DIR => $RENDER_N8N_CONFIG_DIR"
     cp -rf "$APP_CONFIG_DIR/." "$RENDER_N8N_CONFIG_DIR/"
+    #
+    echo -e "   ls -a $RENDER_N8N_CONFIG_DIR"
+    ls -a $RENDER_N8N_CONFIG_DIR
   else
     echo -e "   Copy config files FAIL!"
   fi
