@@ -4,7 +4,7 @@
 #
 #set -euo pipefail
 # ### store current directory
-pushd .
+#pushd .
 #
 # #########################################################################################################
 # ###
@@ -18,7 +18,8 @@ export APP_INIT_SCRIPT_FILENAME
 export APP_INIT_SCRIPT_DIR
 
 # cd ../$APP_INIT_SCRIPT_DIR
-cd /opt/render/project/src/packages/conf
+#cd /opt/render/project/src/packages/conf
+
 # #########################################################################################################
 # ###
 #
@@ -51,6 +52,8 @@ config_load() {
     #
     echo -e "   ls -la $RENDER_N8N_CONFIG_DIR"
     ls -la $RENDER_N8N_CONFIG_DIR
+    echo -e "   ls -la ../$RENDER_N8N_CONFIG_DIR"
+    ls -la ../$RENDER_N8N_CONFIG_DIR
   else
     echo -e "   Copy config files FAIL!"
   fi
