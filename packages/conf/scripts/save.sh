@@ -152,4 +152,4 @@ vars_save
 
 config_upload
 
-popd || exit
+popd

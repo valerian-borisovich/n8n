@@ -68,4 +68,5 @@ prepare
 # ###
 config_load
 
-popd || exit
+popd
+    s
