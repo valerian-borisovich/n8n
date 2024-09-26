@@ -14,7 +14,7 @@ APP_INIT_SCRIPT_FILENAME=$THIS
 APP_INIT_SCRIPT_DIR=$(dirname "${THIS}")
 # APP_INIT_SCRIPT_STARTED=$(date +'%A %B %e %T %Y')
 # cat <(echo $(date +%Y.%m.%d_%H:%M:%S.%N))
-APP_INIT_SCRIPT_STARTED=$(date +%Y.%m.%d_%H:%M:%S.%N)
+APP_INIT_SCRIPT_STARTED=$(date +'%Y.%m.%d %H:%M:%S.%N')
 #
 export APP_INIT_SCRIPT_STARTED
 export APP_INIT_SCRIPT_FILENAME
@@ -53,8 +53,8 @@ config_load() {
     echo -e "   Copy configs: $APP_CONFIG_DIR => $RENDER_N8N_CONFIG_DIR"
     cp -rf $APP_CONFIG_DIR/. $RENDER_N8N_CONFIG_DIR/
     #
-    echo -e "   ls -la $RENDER_N8N_CONFIG_DIR"
-    ls -la $RENDER_N8N_CONFIG_DIR
+    #echo -e "   ls -la $RENDER_N8N_CONFIG_DIR"
+    #ls -la $RENDER_N8N_CONFIG_DIR
   else
     echo -e "   Copy config files FAIL!"
   fi

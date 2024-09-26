@@ -60,7 +60,7 @@ config_upload() {
 
   # ###
   # cd /opt/render/project/src
-  cd $APP_BASE_DIR
+  #cd $APP_BASE_DIR
 
   # ###   Prepare
   #
