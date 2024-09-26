@@ -126,3 +126,10 @@
 {"level":"info","message":"Version: 1.61.0","metadata":{"file":"abstract-server.js","function":"start","timestamp":"2024-09-26T13:19:09.067Z"}}
 {"level":"info","message":"Owner was set up successfully","metadata":{"file":"owner.controller.js","function":"setupOwner","timestamp":"2024-09-26T13:20:02.896Z"}}
 {"level":"info","message":"User survey updated successfully","metadata":{"file":"me.controller.js","function":"storeSurveyAnswers","timestamp":"2024-09-26T13:20:14.239Z","userId":"97d672a3-3061-43d8-abf6-b35cc18231aa"}}
+{"level":"error","message":"Last session crashed","metadata":{"file":"crash-journal.js","function":"init","timestamp":"2024-09-26T13:46:55.143Z"}}
+{"level":"info","message":"Initializing n8n process","metadata":{"file":"start.js","function":"init","timestamp":"2024-09-26T13:47:05.146Z"}}
+{"level":"info","message":"n8n ready on 0.0.0.0, port 80","metadata":{"file":"abstract-server.js","function":"init","timestamp":"2024-09-26T13:47:10.246Z"}}
+{"level":"warn","message":"Found unfinished executions: 1","metadata":{"file":"message-event-bus.js","function":"initialize","timestamp":"2024-09-26T13:47:33.445Z"}}
+{"level":"info","message":"This could be due to a crash of an active workflow or a restart of n8n.","metadata":{"file":"message-event-bus.js","function":"initialize","timestamp":"2024-09-26T13:47:33.446Z"}}
+{"level":"info","message":"[Recovery] Logs available, amended execution","metadata":{"executionId":"1","file":"execution-recovery.service.js","function":"recoverFromLogs","timestamp":"2024-09-26T13:47:33.541Z"}}
+{"level":"info","message":"Version: 1.61.0","metadata":{"file":"abstract-server.js","function":"start","timestamp":"2024-09-26T13:47:34.413Z"}}
