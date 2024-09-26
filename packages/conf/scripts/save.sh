@@ -145,11 +145,17 @@ vars_save()
 env_load
 env_print
 
+# ###
 prepare
 
+# ###
 config_save
 vars_save
 
+# ###
 config_upload
 
+# ###
 popd
+
+# ###
