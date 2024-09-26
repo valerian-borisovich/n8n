@@ -117,7 +117,7 @@ prepare() {
   if [ ! -d "$RENDER_ROOT" ]; then
     echo -e "   WARN! dir '$RENDER_ROOT' not exists, make dir"
     mkdir -p "$RENDER_ROOT"
-    # sudo chown -R $RENDER_ROOT $USER:$USER
+    # chown -R $USER:$USER $RENDER_ROOT
   fi
   # ###
   if [ "$RENDER_SRC_ROOT" == "" ]; then
@@ -127,15 +127,16 @@ prepare() {
   if [ ! -d "$RENDER_SRC_ROOT" ]; then
     echo -e "   WARN! dir '$RENDER_SRC_ROOT' not exists, make dir"
     mkdir -p "$RENDER_SRC_ROOT"
-    # sudo chown -R $RENDER_SRC_ROOT $USER:$USER
+    # chown -R $USER:$USER $RENDER_SRC_ROOT
   fi
   # ###
   if [ "$RENDER_N8N_CONFIG_DIR" == "" ]; then
     export RENDER_N8N_CONFIG_DIR="$RENDER_ROOT/.n8n"
   fi
   if [ ! -d "$RENDER_N8N_CONFIG_DIR" ]; then
-    echo -e "   WARN! not exists dir: $RENDER_N8N_CONFIG_DIR"
+    echo -e "$RENDER_N8N_CONFIG_DIR not exists, make dir"
     mkdir -p $RENDER_N8N_CONFIG_DIR
+    chown -R $USER:$USER $RENDER_N8N_CONFIG_DIR
   fi
   # #########################################################################################################
   if [ "$APP_BASE_DIR" == "" ]; then
@@ -151,8 +152,8 @@ prepare() {
     export GITHUB_EMAIL="valerian.borisovich@gmail.com"
     export GITHUB_USERNAME="Valerian Borisovich"
     export GITHUB_LOGIN="valerian-borisovich"
-    export GITHUB_TOKEN=""
     export GITHUB_REPO="github.com/valerian-borisovich/n8n.git"
+    # export GITHUB_TOKEN=""
   fi
   # #########################################################################################################
 }
