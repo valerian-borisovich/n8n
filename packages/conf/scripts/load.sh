@@ -29,14 +29,28 @@ source $APP_INIT_SCRIPT_DIR/helpers.sh
 # ###   Config load
 #
 config_load() {
-  if [ -d "$RENDER_N8N_CONFIG_DIR" ]; then
-    echo -e "   Copy config files: $APP_CONFIG_DIR => $RENDER_N8N_CONFIG_DIR";
-    cp -rf "$APP_CONFIG_DIR/." "$RENDER_N8N_CONFIG_DIR/";
-  else
-    echo -e "   $RENDER_N8N_CONFIG_DIR dir not exists!";
-  fi
-}
+  echo -e "\033[0;255;0;32m"
+  echo -e "   Config loaded,  '$APP_INIT_SCRIPT_STARTED'"
+  echo -e "\033[0m"
 
+  if [ "$APP_CONFIG_DIR" == "" ]; then
+    export APP_CONFIG_DIR="../$APP_INIT_SCRIPT_DIR/latest"
+  fi
+  if [ "$RENDER_N8N_CONFIG_DIR" == "" ]; then
+    export RENDER_N8N_CONFIG_DIR="/opt/render/.n8n"
+  fi
+  if [ ! -d "$RENDER_N8N_CONFIG_DIR" ]; then
+    echo -e "   $RENDER_N8N_CONFIG_DIR dir not exists!"
+    mkdir -p "$RENDER_N8N_CONFIG_DIR"
+  fi
+  if [ -d "$RENDER_N8N_CONFIG_DIR" ]; then
+    echo -e "   Copy config files: $APP_CONFIG_DIR => $RENDER_N8N_CONFIG_DIR"
+    cp -rf "$APP_CONFIG_DIR/." "$RENDER_N8N_CONFIG_DIR/"
+  else
+    echo -e "   Copy config files FAIL!"
+  fi
+
+}
 
 # #########################################################################################################
 # ###

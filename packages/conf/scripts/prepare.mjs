@@ -7,6 +7,10 @@ process.env.FORCE_COLOR = '1';
 
 echo('🏗️ Started scripts/prepare.mjs ');
 
+//const path = require('path');
+//path.join("../",__dirname, 'latest');
+
+
 /*
 import {execSync} from 'node:child_process';
 ///

@@ -20,6 +20,7 @@
 #export APP_INIT_SCRIPT_STARTED
 #export APP_INIT_SCRIPT_FILENAME
 #export APP_INIT_SCRIPT_DIR
+
 # ###
 if [ "$APP_ALLOWED_CONFIGS" == "" ]; then
   APP_ALLOWED_CONFIGS=.defaults,.config,.env,.ctx
@@ -75,7 +76,7 @@ env_load() {
   for filename in "${arr[@]}"; do
     # shellcheck disable=SC1073
     if [[ -f "$filename" ]]; then
-      echo -e "   Loading vars from: $filename"
+      echo -e "   Loading vars from: '$filename'"
       set -a
       # shellcheck disable=SC1090
       source $filename
@@ -121,7 +122,6 @@ prepare() {
   # ###
   if [ "$RENDER_SRC_ROOT" == "" ]; then
     export RENDER_SRC_ROOT=/opt/render/project/src
-    # export RENDER_SRC_ROOT=/c/n8n
   fi
   # ###
   if [ ! -d "$RENDER_SRC_ROOT" ]; then
