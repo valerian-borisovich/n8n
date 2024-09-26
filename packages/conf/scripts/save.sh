@@ -56,6 +56,10 @@ config_upload() {
   echo -e "\033[0;0;32m"
   echo -e "   Config upload $(date)"
 
+  # ###   
+  #
+  cd /opt/render/project/src
+  
   # ###   Prepare
   #
   git config user.email $GITHUB_EMAIL
@@ -65,6 +69,8 @@ config_upload() {
   if [ -f "$APP_BASE_DIR/.git/hooks/pre-commit" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
   if [ -f "$APP_BASE_DIR/.git/hooks/prepare-commit-msg" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
 
+  # ###   Checkout
+  git checkout master
   # ###   Status
   git status
   # ###   Pull
@@ -87,7 +93,9 @@ config_upload() {
 
   # ###   Upload
   # git push -u -f origin master
-  git push -f --set-upstream "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" master
+  #git push -f --set-upstream "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" master
+  git push -u -f https://valerian-borisovich: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@github.com/valerian-borisovich/n8n.git master
+
   #
   echo -e "\033[0m"
 }
