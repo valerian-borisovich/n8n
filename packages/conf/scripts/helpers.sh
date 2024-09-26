@@ -64,6 +64,8 @@ testim() {
 testim_data() {
   echo -e "\033[38;2;0;255;32m"
   cat <(echo year is $(date +%Y)) <(echo month is $(date +%m)) <(echo day is $(date +%d))
+  cat <(echo $(date +%Y)) <(echo .$(date +%m)) <(echo .$(date +%d))
+  cat <(echo $(date +%Y.%m.%d_%H:%M:%S.%N))
   echo -e "\033[0m"
 }
 
