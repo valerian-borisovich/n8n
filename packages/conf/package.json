@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "lintfix": "eslint . --fix",
     "watch": "tsc -p tsconfig.build.json --watch",
-    "testim": "/usr/bin/bash scripts/testim.sh",
+    "testim": "bash scripts/testim.sh",
     "test": "jest",
     "test:dev": "jest --watch"
   },
@@ -27,7 +27,6 @@
   "dependencies": {
     "reflect-metadata": "0.2.2",
     "typedi": "catalog:",
-    "@n8n/config": "latest",
     "typescript": "*",
     "zx": "latest"
   }

@@ -1,7 +1,8 @@
 //
+// import { Config, GlobalConfig, Env } from "../../@n8n/config"
+// export { Config, GlobalConfig, Env }
 
-//import { Config, Env, Nested } from '../../@n8n/config/src/decorators';
-
-/// import GlobalConfig from "packages/@n8n/config/src/index.ts"
-//import { GlobalConfig } from "../../@n8n/config/src"
-//export { GlobalConfig }
+export * from "../../@n8n/config"
+export * from "../../@n8n/config/src/index"
+export * from "../../@n8n/config/src/configs"
+export * from "../../@n8n/config/src/decorators"

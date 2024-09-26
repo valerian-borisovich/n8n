@@ -1,6 +1,6 @@
 import { Container } from 'typedi';
 
-import { Config, Env } from '../src/decorators';
+import { Config, Env } from '../src';
 
 describe('decorators', () => {
 	beforeEach(() => {

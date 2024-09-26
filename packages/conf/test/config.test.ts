@@ -2,7 +2,7 @@ import fs from 'fs';
 import { mock } from 'jest-mock-extended';
 import { Container } from 'typedi';
 
-import { GlobalConfig } from '../src/index';
+import { GlobalConfig } from '../src';
 
 jest.mock('fs');
 const mockFs = mock<typeof fs>();
