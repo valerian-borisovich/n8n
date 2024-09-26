@@ -17,8 +17,8 @@ export APP_INIT_SCRIPT_STARTED
 export APP_INIT_SCRIPT_FILENAME
 export APP_INIT_SCRIPT_DIR
 
-cd ../$APP_INIT_SCRIPT_DIR
-
+# cd ../$APP_INIT_SCRIPT_DIR
+cd /opt/render/project/src/packages/conf
 # #########################################################################################################
 # ###
 #
