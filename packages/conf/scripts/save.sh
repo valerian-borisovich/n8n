@@ -5,7 +5,7 @@
 #set -euo pipefail
 #
 # ### store current directory
-# pushd .
+pushd .
 #
 # #########################################################################################################
 # ###
@@ -17,8 +17,8 @@ APP_INIT_SCRIPT_STARTED=$(date +'%A %B %e %T %Y')
 export APP_INIT_SCRIPT_STARTED
 export APP_INIT_SCRIPT_FILENAME
 export APP_INIT_SCRIPT_DIR
-# ###
-#
+
+cd "../$APP_INIT_SCRIPT_DIR"
 
 # #########################################################################################################
 # ###
@@ -56,10 +56,10 @@ config_upload() {
   echo -e "\033[0;0;32m"
   echo -e "   Config upload $(date)"
 
-  # ###   
+  # ###
   #
   cd /opt/render/project/src
-  
+
   # ###   Prepare
   #
   git config user.email $GITHUB_EMAIL
@@ -94,7 +94,7 @@ config_upload() {
   # ###   Upload
   # git push -u -f origin master
   git push -u -f https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO master
-  
+
   #
   echo -e "\033[0m"
 }
@@ -151,3 +151,5 @@ config_save
 vars_save
 
 config_upload
+
+popd || exit

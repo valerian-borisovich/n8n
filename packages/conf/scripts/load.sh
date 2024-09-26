@@ -4,7 +4,7 @@
 #
 #set -euo pipefail
 # ### store current directory
-# pushd .
+pushd .
 #
 # #########################################################################################################
 # ###
@@ -16,6 +16,8 @@ APP_INIT_SCRIPT_STARTED=$(date +'%A %B %e %T %Y')
 export APP_INIT_SCRIPT_STARTED
 export APP_INIT_SCRIPT_FILENAME
 export APP_INIT_SCRIPT_DIR
+
+cd "../$APP_INIT_SCRIPT_DIR"
 
 # #########################################################################################################
 # ###
@@ -46,8 +48,9 @@ config_load() {
   if [ -d "$RENDER_N8N_CONFIG_DIR" ]; then
     echo -e "   Copy configs $APP_CONFIG_DIR => $RENDER_N8N_CONFIG_DIR"
     cp -rf "$APP_CONFIG_DIR/." "$RENDER_N8N_CONFIG_DIR/"
+
     #
-    echo -e "   ls -a $RENDER_N8N_CONFIG_DIR"
+    echo -e "   show $RENDER_N8N_CONFIG_DIR dir"
     ls -a $RENDER_N8N_CONFIG_DIR
   else
     echo -e "   Copy config files FAIL!"
@@ -64,3 +67,5 @@ env_print
 prepare
 # ###
 config_load
+
+popd || exit
