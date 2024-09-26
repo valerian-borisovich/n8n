@@ -5,7 +5,7 @@
 #set -euo pipefail
 #
 # ### store current directory
-pushd .
+#pushd .
 #
 # #########################################################################################################
 # ###
@@ -57,8 +57,8 @@ config_upload() {
   echo -e "   Config upload $(date)"
 
   # ###
-  #
-  cd /opt/render/project/src
+  # cd /opt/render/project/src
+  cd $APP_BASE_DIR
 
   # ###   Prepare
   #
@@ -71,10 +71,12 @@ config_upload() {
 
   # ###   Checkout
   git checkout master
+
   # ###   Status
   git status
+
   # ###   Pull
-  git pull
+  # git pull
 
   # ###   replace localfiles from remote repo
   # git fetch --all
@@ -155,7 +157,3 @@ vars_save
 # ###
 config_upload
 
-# ###
-popd
-
-# ###
