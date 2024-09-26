@@ -1047,9 +1047,6 @@ importers:
 
   packages/conf:
     dependencies:
-      '@n8n/config':
-        specifier: latest
-        version: link:../@n8n/config
       reflect-metadata:
         specifier: 0.2.2
         version: 0.2.2
@@ -1060,8 +1057,8 @@ importers:
         specifier: ^5.6.2
         version: 5.6.2
       zx:
-        specifier: ^8.1.4
-        version: 8.1.4
+        specifier: latest
+        version: 8.1.8
 
   packages/core:
     dependencies:
@@ -12831,6 +12828,11 @@ packages:
     engines: {node: '>= 12.17.0'}
     hasBin: true
 
+  zx@8.1.8:
+    resolution: {integrity: sha512-m8s48skYQ8EcRz9KXfc7rZCjqlZevOGiNxq5tNhDiGnhOvXKRGxVr+ajUma9B6zxMdHGSSbnjV/R/r7Ue2xd+A==}
+    engines: {node: '>= 12.17.0'}
+    hasBin: true
+
 snapshots:
 
   '@aashutoshrathi/word-wrap@1.2.6': {}
@@ -12977,7 +12979,7 @@ snapshots:
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
-      '@aws-sdk/client-sso-oidc': 3.654.0(@aws-sdk/client-sts@3.654.0)
+      '@aws-sdk/client-sso-oidc': 3.654.0(@aws-sdk/client-sts@3.645.0)
       '@aws-sdk/client-sts': 3.654.0
       '@aws-sdk/core': 3.654.0
       '@aws-sdk/credential-provider-node': 3.654.0(@aws-sdk/client-sso-oidc@3.654.0(@aws-sdk/client-sts@3.654.0))(@aws-sdk/client-sts@3.654.0)
@@ -13122,7 +13124,7 @@ snapshots:
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
-      '@aws-sdk/client-sso-oidc': 3.654.0(@aws-sdk/client-sts@3.645.0)
+      '@aws-sdk/client-sso-oidc': 3.654.0(@aws-sdk/client-sts@3.654.0)
       '@aws-sdk/client-sts': 3.654.0
       '@aws-sdk/core': 3.654.0
       '@aws-sdk/credential-provider-node': 3.654.0(@aws-sdk/client-sso-oidc@3.654.0(@aws-sdk/client-sts@3.654.0))(@aws-sdk/client-sts@3.654.0)
@@ -14329,7 +14331,7 @@ snapshots:
 
   '@aws-sdk/token-providers@3.654.0(@aws-sdk/client-sso-oidc@3.654.0(@aws-sdk/client-sts@3.654.0))':
     dependencies:
-      '@aws-sdk/client-sso-oidc': 3.654.0(@aws-sdk/client-sts@3.645.0)
+      '@aws-sdk/client-sso-oidc': 3.654.0(@aws-sdk/client-sts@3.654.0)
       '@aws-sdk/types': 3.654.0
       '@smithy/property-provider': 3.1.6
       '@smithy/shared-ini-file-loader': 3.1.7
@@ -27157,6 +27159,11 @@ snapshots:
   zod@3.23.8: {}
 
   zx@8.1.4:
+    optionalDependencies:
+      '@types/fs-extra': 11.0.4
+      '@types/node': 18.16.16
+
+  zx@8.1.8:
     optionalDependencies:
       '@types/fs-extra': 11.0.4
       '@types/node': 18.16.16
