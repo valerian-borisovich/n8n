@@ -11,12 +11,14 @@
     },
     "build:backend": {
       "dependsOn": [
-        "n8n#build"
+        "n8n#build",
+        "conf#build"
       ]
     },
     "build:frontend": {
       "dependsOn": [
-        "n8n-editor-ui#build"
+        "n8n-editor-ui#build",
+        "conf#build"
       ]
     },
     "build:nodes": {

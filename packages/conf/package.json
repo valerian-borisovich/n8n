@@ -12,8 +12,8 @@
     "lint": "eslint .",
     "lintfix": "eslint . --fix",
     "watch": "tsc -p tsconfig.build.json --watch",
-    "test0": "jest",
-    "test": "/usr/bin/bash scripts/testim.sh",
+    "testim": "/usr/bin/bash scripts/testim.sh",
+    "test": "jest",
     "test:dev": "jest --watch"
   },
   "main": "dist/index.js",
@@ -29,6 +29,6 @@
     "typedi": "catalog:",
     "@n8n/config": "latest",
     "typescript": "*",
-    "zx": "^8.1.4"
+    "zx": "latest"
   }
 }
