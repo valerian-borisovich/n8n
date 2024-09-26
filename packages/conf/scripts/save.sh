@@ -93,9 +93,8 @@ config_upload() {
 
   # ###   Upload
   # git push -u -f origin master
-  #git push -f --set-upstream "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" master
-  git push -u -f https://valerian-borisovich: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@github.com/valerian-borisovich/n8n.git master
-
+  git push -u -f https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO master
+  
   #
   echo -e "\033[0m"
 }
