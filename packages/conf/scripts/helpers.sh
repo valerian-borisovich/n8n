@@ -23,7 +23,7 @@
 
 # ###
 if [ "$APP_ALLOWED_CONFIGS" == "" ]; then
-  APP_ALLOWED_CONFIGS=.defaults,.config,.env,.ctx
+  APP_ALLOWED_CONFIGS=".defaults,.config,.env,.ctx"
   export APP_ALLOWED_CONFIGS
 fi
 
@@ -51,6 +51,7 @@ fi
 #THIS=$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || echo $0);
 # ### The directory where current script resides
 #DIR=$(dirname "${THIS}")
+CURRENT_USER=$(whoami)
 
 # #########################################################################################################
 # ###
@@ -112,6 +113,9 @@ env_print() {
 # ###
 #
 prepare() {
+  echo -e "\033[38;2;0;255;32m"
+  echo -e "   prepare() started"
+
   if [ "$RENDER_ROOT" == "" ]; then
     export RENDER_ROOT=/opt/render
   fi
@@ -119,11 +123,12 @@ prepare() {
   if [ ! -d "$RENDER_ROOT" ]; then
     echo -e "   WARN! dir '$RENDER_ROOT' not exists, make dir"
     mkdir -p "$RENDER_ROOT"
-    # chown -R $USER:$USER $RENDER_ROOT
+    echo -e "   chown -R $CURRENT_USER:$CURRENT_USER $RENDER_ROOT"
+    chown -R "$CURRENT_USER":"$CURRENT_USER" "$RENDER_ROOT"
   fi
   # ###
   if [ "$RENDER_SRC_ROOT" == "" ]; then
-    export RENDER_SRC_ROOT=/opt/render/project/src
+    export RENDER_SRC_ROOT="/opt/render/project/src"
   fi
   # ###
   if [ ! -d "$RENDER_SRC_ROOT" ]; then
@@ -143,13 +148,13 @@ prepare() {
 
   # #########################################################################################################
   if [ "$APP_BASE_DIR" == "" ]; then
-    export APP_BASE_DIR=$RENDER_SRC_ROOT
-    export APP_CONFIG_DIR=$APP_BASE_DIR/packages/conf/latest
+    export APP_BASE_DIR="$RENDER_SRC_ROOT"
+    export APP_CONFIG_DIR="$APP_BASE_DIR/packages/conf/latest"
   fi
 
   # #########################################################################################################
   if [ "$GITHUB_EMAIL" == "" ]; then
-    echo -e "   ! $GITHUB_EMAIL == '' "
+    echo -e "   !!! $GITHUB_EMAIL == '' "
     #export GITHUB_EMAIL="valerian.borisovich@gmail.com"
     #export GITHUB_USERNAME="Valerian Borisovich"
     #export GITHUB_LOGIN="valerian-borisovich"
@@ -157,4 +162,6 @@ prepare() {
   fi
 
   # #########################################################################################################
+  # ###
+  echo -e "\033[0m"
 }
