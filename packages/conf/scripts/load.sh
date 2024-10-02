@@ -37,7 +37,6 @@ source $APP_INIT_SCRIPT_DIR/helpers.sh
 config_load() {
   echo -e "\033[0;255;0;32m"
   echo -e "   Config loading... '$APP_INIT_SCRIPT_STARTED'"
-  echo -e "\033[0m"
 
   if [ "$APP_CONFIG_DIR" == "" ]; then
     export APP_CONFIG_DIR="./../$APP_INIT_SCRIPT_DIR/latest"
@@ -59,6 +58,7 @@ config_load() {
     echo -e "   Copy config files FAIL!"
   fi
 
+  echo -e "\033[0m"
 }
 
 # #########################################################################################################

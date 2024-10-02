@@ -70,15 +70,17 @@ config_upload() {
   git config --global --unset-all credential.helper
   git config --system --unset-all credential.helper
   #
-  git config user.email "$GITHUB_EMAIL"
-  git config user.name "$GITHUB_USERNAME"
+  git config --local user.email "$GITHUB_EMAIL"
+  git config --local user.name "$GITHUB_USERNAME"
   #
   if [ -f "$APP_BASE_DIR/.git/index.lock" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
   if [ -f "$APP_BASE_DIR/.git/hooks/pre-commit" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
   if [ -f "$APP_BASE_DIR/.git/hooks/prepare-commit-msg" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
 
   # ###   Checkout
-  git checkout master
+  #git checkout master
+  git checkout "$GITHUB_BRANCH"
+
   # ###   Status
   git status
   # ###   Pull
@@ -99,7 +101,12 @@ config_upload() {
   # git show --name-only
   # ###   Upload
   # git push -u -f origin master
-  git push -u -f "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" master
+  #git push -u -f "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" master
+  # git push -u -f "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" "$GITHUB_BRANCH"
+  GIT_URL="https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO"
+  #
+  echo -e "git push -u -f $GIT_URL $GITHUB_BRANCH"
+  git push -u -f "$GIT_URL" "$GITHUB_BRANCH"
   #
   echo -e "\033[0m"
 }

@@ -138,24 +138,23 @@ prepare() {
   if [ ! -d "$RENDER_N8N_CONFIG_DIR" ]; then
     echo -e "$RENDER_N8N_CONFIG_DIR not exists, make dir"
     mkdir -p $RENDER_N8N_CONFIG_DIR
-    chown -R $USER:$USER $RENDER_N8N_CONFIG_DIR
+  #  chown -R $USER:$USER $RENDER_N8N_CONFIG_DIR
   fi
+
   # #########################################################################################################
   if [ "$APP_BASE_DIR" == "" ]; then
     export APP_BASE_DIR=$RENDER_SRC_ROOT
     export APP_CONFIG_DIR=$APP_BASE_DIR/packages/conf/latest
   fi
-  # ###
-  if [ "$APP_ALLOWED_CONFIGS" == "" ]; then
-    export APP_ALLOWED_CONFIGS=.defaults,.config,.env,.ctx
-  fi
+
   # #########################################################################################################
   if [ "$GITHUB_EMAIL" == "" ]; then
-    export GITHUB_EMAIL="valerian.borisovich@gmail.com"
-    export GITHUB_USERNAME="Valerian Borisovich"
-    export GITHUB_LOGIN="valerian-borisovich"
-    export GITHUB_REPO="github.com/valerian-borisovich/n8n.git"
-    # export GITHUB_TOKEN=""
+    echo -e "   ! $GITHUB_EMAIL == '' "
+    #export GITHUB_EMAIL="valerian.borisovich@gmail.com"
+    #export GITHUB_USERNAME="Valerian Borisovich"
+    #export GITHUB_LOGIN="valerian-borisovich"
+    #export GITHUB_REPO="github.com/valerian-borisovich/n8n.git"
   fi
+
   # #########################################################################################################
 }

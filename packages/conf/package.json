@@ -2,7 +2,7 @@
   "name": "conf",
   "version": "1.10.0",
   "scripts": {
-    "prepare0": "node scripts/prepare.mjs",
+    "prepare": "node scripts/prepare.mjs",
     "clean": "rimraf dist .turbo",
     "dev": "pnpm watch",
     "typecheck": "tsc --noEmit",
@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "lintfix": "eslint . --fix",
     "watch": "tsc -p tsconfig.build.json --watch",
+    "prestart": "bash scripts/load.sh",
     "testim": "bash scripts/testim.sh",
     "test": "jest",
     "test:dev": "jest --watch"

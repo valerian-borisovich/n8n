@@ -11,7 +11,7 @@ NODE_VERSION=20.16
 # ########################################################################################################
 # ###
 #
-APP_ALLOWED_CONFIGS=.defaults,.config,.env,.ctx
+APP_ALLOWED_CONFIGS=".defaults,.config,.env,.ctx"
 # ###
 APP_BASE_DIR=/opt/render/project/src
 APP_CONFIG_DIR=/opt/render/project/src/packages/conf/latest
@@ -19,10 +19,11 @@ APP_CONFIG_DIR=/opt/render/project/src/packages/conf/latest
 # ########################################################################################################
 # ###
 #
-GITHUB_EMAIL="valerian.borisovich@gmail.com"
-GITHUB_USERNAME="Valerian Borisovich"
-GITHUB_LOGIN=valerian-borisovich
-GITHUB_REPO=github.com/valerian-borisovich/n8n.git
+#GITHUB_EMAIL="valerian.borisovich@gmail.com"
+#GITHUB_USERNAME="Valerian Borisovich"
+#GITHUB_LOGIN=valerian-borisovich
+#GITHUB_REPO=github.com/valerian-borisovich/n8n.git
+#GITHUB_BRANCH=master
 #GITHUB_TOKEN=
 
 # ########################################################################################################
