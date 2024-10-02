@@ -27,7 +27,7 @@ if (process.env.CI || process.env.DOCKER_BUILD) { process.exit(0); }
 execSync('./node_modules/.bin/lefthook install', { stdio: 'inherit' });
 */
 
-console.log('\033[0;31m');
+//console.log('\033[0;31m');
 
 // echo('🏗️ chmod +x scripts/*.sh');
 console.log('🏗️ chmod +x scripts/*.sh');
@@ -38,4 +38,4 @@ console.log('🏗️ Running scripts/load.sh');
 // await $`scripts/load.sh`;
 
 ///
-console.log('\033[0m');
+//console.log('\033[0m');
