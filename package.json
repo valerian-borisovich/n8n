@@ -1,6 +1,6 @@
 {
   "name": "n8n-monorepo",
-  "version": "1.61.0",
+  "version": "1.62.1",
   "private": true,
   "engines": {
     "node": ">=20.15",
@@ -14,9 +14,8 @@
     "build:backend": "turbo run build:backend",
     "build:frontend": "turbo run build:frontend",
     "build:nodes": "turbo run build:nodes",
-    "update-lockfile": "pnpm i --lockfile-only",
     "typecheck": "turbo typecheck",
-    "dev": "turbo run dev --parallel --env-mode=loose --filter=!n8n-design-system --filter=!@n8n/chat",
+    "dev": "turbo run dev --parallel --env-mode=loose --filter=!n8n-design-system --filter=!@n8n/chat --filter=!@n8n/task-runner",
     "dev:ai": "turbo run dev --parallel --env-mode=loose --filter=@n8n/nodes-langchain --filter=n8n --filter=n8n-core",
     "clean": "turbo run clean --parallel",
     "reset": "node scripts/ensure-zx.mjs && zx scripts/reset.mjs",
@@ -28,8 +27,7 @@
     "lint:nodes": "turbo run lint:nodes",
     "lint:frontend": "turbo run lint:frontend",
     "optimize-svg": "find ./packages -name '*.svg' ! -name 'pipedrive.svg' -print0 | xargs -0 -P16 -L20 npx svgo",
-    "start0": "node ./packages/conf/scripts/prepare.mjs && run-script-os",
-    "start": "/usr/bin/bash ./packages/conf/scripts/load.sh && run-script-os",
+    "start": "run-script-os",
     "start:default": "cd packages/cli/bin && ./n8n",
     "start:tunnel": "./packages/cli/bin/n8n start --tunnel",
     "start:windows": "cd packages/cli/bin && n8n",
@@ -61,7 +59,7 @@
     "ts-jest": "^29.1.1",
     "tsc-alias": "^1.8.7",
     "tsc-watch": "^6.0.4",
-    "turbo": "2.0.12",
+    "turbo": "2.1.2",
     "typescript": "*",
     "zx": "^8.1.4"
   },

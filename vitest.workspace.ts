@@ -1,1 +1,1 @@
-export default ['packages/{design-system,editor-ui,conf}'];
+export default ['packages/{design-system,editor-ui}'];

@@ -35,7 +35,6 @@ import {
 	WORKFLOW_HISTORY_VERSION_RESTORE,
 	SETUP_CREDENTIALS_MODAL_KEY,
 	PROJECT_MOVE_RESOURCE_MODAL,
-	PROJECT_MOVE_RESOURCE_CONFIRM_MODAL,
 	NEW_ASSISTANT_SESSION_MODAL,
 	PROMPT_MFA_CODE_MODAL_KEY,
 } from '@/constants';
@@ -126,7 +125,6 @@ export const useUIStore = defineStore(STORES.UI, () => {
 				WORKFLOW_HISTORY_VERSION_RESTORE,
 				SETUP_CREDENTIALS_MODAL_KEY,
 				PROJECT_MOVE_RESOURCE_MODAL,
-				PROJECT_MOVE_RESOURCE_CONFIRM_MODAL,
 				NEW_ASSISTANT_SESSION_MODAL,
 			].map((modalKey) => [modalKey, { open: false }]),
 		),
@@ -304,6 +302,8 @@ export const useUIStore = defineStore(STORES.UI, () => {
 			return acc;
 		}, {}),
 	);
+
+	const activeModals = computed(() => modalStack.value.map((modalName) => modalName));
 
 	const fakeDoorsByLocation = computed(() =>
 		fakeDoorFeatures.value.reduce((acc: { [uiLocation: string]: IFakeDoor }, fakeDoor) => {
@@ -702,6 +702,7 @@ export const useUIStore = defineStore(STORES.UI, () => {
 		setNotificationsForView,
 		deleteNotificationsForView,
 		resetLastInteractedWith,
+		activeModals,
 	};
 });
 
