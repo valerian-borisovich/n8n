@@ -1,40 +1,76 @@
 .ONESHELL:
 SHELL:=/usr/bin/bash
 .DEFAULT_GOAL:=start
+#
+ALLOWED_CONFIGS=".defaults,.config,.env,.env.local,.ctx"
 
-# #####################################################################################################################
+# #########################################################################################################
+# ###
+# $#   :number of positional parameters.
+# $?   :most recent foreground pipeline exit status.
+# $-   :current options set for the shell.
+# $$   :pid of the current shell (not subshell).
+# $!   :is the PID of the most recent background command.
+# $_   :last argument of the previously executed command, or the path of the bash script.
+# $PWD					current directory
+# $USER					current username
+# $HOSTNAME			current hostname
+#HOST_IP=$(ip -4 route list match 0/0 | awk '{print $3}')
+#echo "Host ip is $HOST_IP"
 # ###    Full path of the current script
 #THIS=$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || echo $0);
 # ### The directory where current script resides
 #DIR=$(dirname "${THIS}")
-# ###
-#PWD=$(pwd)
-# ###
-#
+#CURRENT_USER=$(whoami)
+
+# #########################################################################################################
 
 nullstring =
 
 log_ok = @echo -e '\033[38;2;0;255;32m$1\033[0m'
-log_cmd = @echo -e '\033[38;2;155;155;32m$1\033[0m'
-log_inf = @echo -e '\033[38;2;100;100;32m$1\033[0m'
-log_warning = @echo -e '\033[38;255;0;0;32m$1\033[0m'
-log_err = @echo -e '\033[38;255;0;0;32m$1\033[0m'
-log_achtung = @echo -e '\033[38;255;0;0;32m$1\033[0m'
-log_achtung = @echo -e '\033[38;255;0;0;32m1\033[0m'
+log_cmd = @echo -e '\033[38;2;0;155;200m$1\033[0m'
+log_inf = @echo -e '\033[38;2;255;100;32m$1\033[0m'
+log_warning=@echo -e '\033[38;2;0;0;255m$1\033[0m'
+log_err = @echo -e '\033[38;2;255;0;32m$1\033[0m'
+log_achtung = @echo -e '\033[38;2;200;50;50m$1\033[0m'
 
 # all: hooks install build init serve
-# default: init
+# default: help
 
-default: help
-
-#@if [[ -f ".env" ]] ; then set -a; source .env; set +a; $(call log_inf, 'Loaded .env.local'); fi
-#@if [[ -f ".env.local" ]] ; then set -a; source .env.local; set +a; $(call log_inf, 'Loaded .env.local'); fi
-#: Load .env or .env.local if exists
+#: Initialize same parametrs
 init:
-	@if [[ -f ".env" ]] ; then set -a; source .env; set +a; fi
-	@if [[ -f ".env.local" ]] ; then set -a; source .env.local; set +a; fi
+	@THIS=$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || echo $0);
+	@CURRENT_TIME=$(date +'%Y.%m.%d %H:%M:%S.%N');
+	@CURRENT_USER=$(whoami);
+	@CURRENT_DIR=$(dirname "${THIS}");
+	#
+	@$(MAKE) -s env_load
 
-testim:
+#: Load .env or another file from '$ALLOWED_CONFIGS' if exists
+env_load:
+	echo -e "\033[38;2;0;255;32m"
+	IFS=',' read -a arr <<<"$ALLOWED_CONFIGS"
+	for filename in "${arr[@]}"; do
+		# shellcheck disable=SC1073
+		if [[ -f "$filename" ]] ; then
+			echo -e "   Loading vars from: '$filename'";
+			set -a;
+			# shellcheck disable=SC1090
+			source $filename;
+			set +a;
+		fi
+	done
+	echo -e "\033[0m"
+
+#: Testim
+testim t:  init
+	$(call log_ok, 'log_ok')
+	$(call log_cmd, 'log_cmd')
+	$(call log_inf, 'log_inf')
+	$(call log_warning, 'log_warning')
+	$(call log_err, 'log_err')
+	$(call log_achtung, 'log_achtung')
+	#
 	@echo -e "testim: $@ $#"
 
 #: Help and Commands list
