@@ -8,9 +8,7 @@ export * from "../../@n8n/config/src/decorators"
 */
 
 
-const originalEnv = process.env;
-afterEach(() => {
-	process.env = originalEnv;
-});
+//const originalEnv = process.env;
+//process.env = originalEnv;
 
 
