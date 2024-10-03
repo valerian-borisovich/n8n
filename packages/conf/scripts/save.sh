@@ -69,9 +69,13 @@ config_upload() {
   git config --unset-all credential.helper
   git config --global --unset-all credential.helper
   git config --system --unset-all credential.helper
-  #
-  git config --local user.email "$GITHUB_EMAIL"
-  git config --local user.name "$GITHUB_USERNAME"
+
+  # ###
+  #git config --local user.email "$GITHUB_EMAIL"
+  #git config --local user.name "$GITHUB_USERNAME"
+  git config --global user.email "$GITHUB_EMAIL"
+  git config --global user.name "$GITHUB_USERNAME"
+   
   #
   if [ -f "$APP_BASE_DIR/.git/index.lock" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
   if [ -f "$APP_BASE_DIR/.git/hooks/pre-commit" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
@@ -85,21 +89,21 @@ config_upload() {
   git status -s
   
   # ###   Pull
-  git pull
+  #git pull --ff
 
   # ###   replace localfiles from remote repo
   # git fetch --all
   # git reset --hard origin/master
 
   # ###   Add files
-  # git add .
   git add --all
-  # git add $APP_CONFIG_DIR/*
+  # git add $APP_CONFIG_DIR/
 
-  git commit -a -m "Config update $APP_INIT_SCRIPT_STARTED"
+  # ###   Commit changes
+  git commit -a -m "conf/latest $APP_INIT_SCRIPT_STARTED"
 
   # ###   Show changes
-  git show --name-only
+  #git show --name-only
 
   # ###   Upload
   # git push -f origin master
@@ -108,6 +112,9 @@ config_upload() {
   #
   echo -e "git push -f $GIT_URL $GITHUB_BRANCH"
   git push -f "$GIT_URL" "$GITHUB_BRANCH"
+
+
+  # ###
   #
   echo -e "\033[0m"
 }
