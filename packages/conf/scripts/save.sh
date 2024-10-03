@@ -109,12 +109,11 @@ config_upload() {
   # git show --name-only
 
   # ###   Upload
-  # git push -f -u origin master
   # git push -f -u "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" "$GITHUB_BRANCH"
   GIT_URL="https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO"
   #
-  echo -e "git push -f $GIT_URL $GITHUB_BRANCH"
-  LEFTHOOK=0 git push -f -u "$GIT_URL" "$GITHUB_BRANCH"
+  echo -e "git push -u $GIT_URL $GITHUB_BRANCH"
+  LEFTHOOK=0 git push -u "$GIT_URL" "$GITHUB_BRANCH"
 
 
   # ###
