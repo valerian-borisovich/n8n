@@ -76,10 +76,13 @@ config_upload() {
   git config --global user.email "$GITHUB_EMAIL"
   git config --global user.name "$GITHUB_USERNAME"
    
-  #
+  # ###
   if [ -f "$APP_BASE_DIR/.git/index.lock" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
   if [ -f "$APP_BASE_DIR/.git/hooks/pre-commit" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
   if [ -f "$APP_BASE_DIR/.git/hooks/prepare-commit-msg" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
+
+  # ###
+  export LEFTHOOK=0
 
   # ###   Checkout
   #git checkout master
@@ -100,10 +103,10 @@ config_upload() {
   # git add $APP_CONFIG_DIR/
 
   # ###   Commit changes
-  git commit -a -m "conf/latest $APP_INIT_SCRIPT_STARTED"
+  LEFTHOOK=0 git commit -a -m "conf/latest $APP_INIT_SCRIPT_STARTED"
 
   # ###   Show changes
-  #git show --name-only
+  # git show --name-only
 
   # ###   Upload
   # git push -f origin master
@@ -111,7 +114,7 @@ config_upload() {
   GIT_URL="https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO"
   #
   echo -e "git push -f $GIT_URL $GITHUB_BRANCH"
-  git push -f "$GIT_URL" "$GITHUB_BRANCH"
+  LEFTHOOK=0 git push -f "$GIT_URL" "$GITHUB_BRANCH"
 
 
   # ###
