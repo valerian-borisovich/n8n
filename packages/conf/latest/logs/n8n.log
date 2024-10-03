@@ -1,0 +1,13 @@
+{"level":"error","message":"Last session crashed","metadata":{"file":"crash-journal.js","function":"init","timestamp":"2024-10-03T02:42:56.144Z"}}
+{"level":"info","message":"Initializing n8n process","metadata":{"file":"start.js","function":"init","timestamp":"2024-10-03T02:43:06.148Z"}}
+{"level":"info","message":"n8n ready on 0.0.0.0, port 80","metadata":{"file":"abstract-server.js","function":"init","timestamp":"2024-10-03T02:43:10.452Z"}}
+{"level":"warn","message":"Migrations in progress, please do NOT stop the process.","metadata":{"file":"migration-helpers.js","function":"logMigrationStart","timestamp":"2024-10-03T02:43:10.642Z"}}
+{"level":"info","message":"Starting migration AddApiKeysTable1724951148974","metadata":{"file":"migration-helpers.js","function":"logMigrationStart","timestamp":"2024-10-03T02:43:10.642Z"}}
+{"level":"info","message":"Finished migration AddApiKeysTable1724951148974","metadata":{"file":"migration-helpers.js","function":"logMigrationEnd","timestamp":"2024-10-03T02:43:10.649Z"}}
+{"level":"info","message":"Starting migration SeparateExecutionCreationFromStart1727427440136","metadata":{"file":"migration-helpers.js","function":"logMigrationStart","timestamp":"2024-10-03T02:43:10.743Z"}}
+{"level":"info","message":"Finished migration SeparateExecutionCreationFromStart1727427440136","metadata":{"file":"migration-helpers.js","function":"logMigrationEnd","timestamp":"2024-10-03T02:43:10.849Z"}}
+{"level":"warn","message":"Found unfinished executions: 3","metadata":{"file":"message-event-bus.js","function":"initialize","timestamp":"2024-10-03T02:43:32.245Z"}}
+{"level":"info","message":"This could be due to a crash of an active workflow or a restart of n8n.","metadata":{"file":"message-event-bus.js","function":"initialize","timestamp":"2024-10-03T02:43:32.245Z"}}
+{"level":"info","message":"Marked executions as `crashed`","metadata":{"executionIds":["3"],"file":"execution.repository.js","function":"markAsCrashed","timestamp":"2024-10-03T02:43:32.543Z"}}
+{"level":"info","message":"[Recovery] Logs available, amended execution","metadata":{"executionId":"3","file":"execution-recovery.service.js","function":"recoverFromLogs","timestamp":"2024-10-03T02:43:32.547Z"}}
+{"level":"info","message":"Version: 1.62.1","metadata":{"file":"abstract-server.js","function":"start","timestamp":"2024-10-03T02:43:33.155Z"}}
