@@ -71,8 +71,6 @@ config_upload() {
   git config --system --unset-all credential.helper
 
   # ###
-  #git config --local user.email "$GITHUB_EMAIL"
-  #git config --local user.name "$GITHUB_USERNAME"
   git config --global user.email "$GITHUB_EMAIL"
   git config --global user.name "$GITHUB_USERNAME"
    
@@ -93,6 +91,7 @@ config_upload() {
   
   # ###   Pull
   # git pull --ff
+  git pull --quiet --no-ff
 
   # ###   replace localfiles from remote repo
   # git fetch --all
@@ -155,7 +154,7 @@ vars_save()
   env | sort | grep N8N_ >> $APP_CONFIG_DIR/vars.md
 
   # ###
-  env | sort > $APP_CONFIG_DIR/vars_all.md
+  # env | sort > $APP_CONFIG_DIR/vars_all.md
 
   #
   echo -e "\033[0m"
