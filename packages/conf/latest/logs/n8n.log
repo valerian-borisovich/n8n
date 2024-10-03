@@ -117,3 +117,4 @@
 {"level":"info","message":" ================================","metadata":{"file":"active-workflow-manager.js","function":"addActiveWorkflows","timestamp":"2024-10-03T05:58:09.230Z"}}
 {"level":"info","message":"   - \"backup\" (ID: fl3g7dJo7uhOLVso)","metadata":{"file":"active-workflow-manager.js","function":"add","timestamp":"2024-10-03T05:58:09.231Z"}}
 {"level":"info","message":"     => Started","metadata":{"file":"active-workflow-manager.js","function":"addActiveWorkflows","timestamp":"2024-10-03T05:58:09.330Z"}}
+{"level":"warn","message":"Removed triggers and pollers for workflow \"fl3g7dJo7uhOLVso\"","metadata":{"file":"active-workflow-manager.js","function":"removeWorkflowTriggersAndPollers","timestamp":"2024-10-03T06:05:24.322Z","workflowId":"fl3g7dJo7uhOLVso"}}
