@@ -75,6 +75,10 @@ config_upload() {
   git config --global user.name "$GITHUB_USERNAME"
    
   # ###
+  #git config pull.rebase true
+  #git config pull.rebase false
+   
+  # ###
   if [ -f "$APP_BASE_DIR/.git/index.lock" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
   if [ -f "$APP_BASE_DIR/.git/hooks/pre-commit" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
   if [ -f "$APP_BASE_DIR/.git/hooks/prepare-commit-msg" ]; then rm -f "$APP_BASE_DIR/.git/index.lock"; fi
@@ -91,7 +95,7 @@ config_upload() {
   
   # ###   Pull
   # git pull --ff
-  git pull --quiet --no-ff
+  git pull --quiet
 
   # ###   replace localfiles from remote repo
   # git fetch --all
@@ -111,8 +115,8 @@ config_upload() {
   # git push -f -u "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" "$GITHUB_BRANCH"
   GIT_URL="https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO"
   #
-  echo -e "git push -u $GIT_URL $GITHUB_BRANCH"
-  LEFTHOOK=0 git push -u "$GIT_URL" "$GITHUB_BRANCH"
+  echo -e "git push -f -u $GIT_URL $GITHUB_BRANCH"
+  LEFTHOOK=0 git push -f -u "$GIT_URL" "$GITHUB_BRANCH"
 
 
   # ###
