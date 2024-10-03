@@ -1,12 +1,12 @@
 # ###   APP
 #   
 APP_PWD=/opt/render/project/src
-APP_ALLOWED_CONFIGS=.defaults,.config,.env,.ctx
+APP_ALLOWED_CONFIGS=.defaults,.config,.env,.env.local,.ctx
 APP_BASE_DIR=/opt/render/project/src
 APP_CONFIG_DIR=/opt/render/project/src/packages/conf/latest
 APP_INIT_SCRIPT_DIR=/opt/render/project/src/packages/conf/scripts
 APP_INIT_SCRIPT_FILENAME=/opt/render/project/src/packages/conf/scripts/save.sh
-APP_INIT_SCRIPT_STARTED=2024.10.03 04:20:03.206438701
+APP_INIT_SCRIPT_STARTED=2024.10.03 05:40:32.413598291
 
 # ###   RENDER
 #   
@@ -18,11 +18,11 @@ RENDER_ENV_IS_DOCKER=false
 RENDER_EXTERNAL_HOSTNAME=n8n-12pd.onrender.com
 RENDER_EXTERNAL_URL=https://n8n-12pd.onrender.com
 RENDER_GIT_BRANCH=master
-RENDER_GIT_COMMIT=9497c59dba478669be0a0685261a01bc22ca0bca
+RENDER_GIT_COMMIT=8db61793f26b2959767a60d9091434b8a1078d18
 RENDER_GIT_REPO_SLUG=valerian-borisovich/n8n
-RENDER_INSTANCE_ID=srv-cqrhing8fa8c73d46l50-hibernate-57f468948b-r6t8m
+RENDER_INSTANCE_ID=srv-cqrhing8fa8c73d46l50-hibernate-659f5cd99c-4d9p4
 RENDER_INTERNAL_HOSTNAME=srv-cqrhing8fa8c73d46l50.usr-cqrhfb5umphs73ckg2d0.svc.cluster.local
-RENDER_INTERNAL_IP=10.217.219.57
+RENDER_INTERNAL_IP=10.217.182.161
 RENDER_N8N_CONFIG_DIR=/opt/render/.n8n
 RENDER_NODE_INSTALLED=true
 RENDER_NODE_VERSION_DETECTED=true
