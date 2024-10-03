@@ -82,9 +82,10 @@ config_upload() {
   git checkout "$GITHUB_BRANCH"
 
   # ###   Status
-  git status
+  git status -s
+  
   # ###   Pull
-  # git pull
+  git pull
 
   # ###   replace localfiles from remote repo
   # git fetch --all
@@ -92,21 +93,21 @@ config_upload() {
 
   # ###   Add files
   # git add .
-  # git add --all
-  # git add --update --force $APP_CONFIG_DIR/*
-  # git commit -a -m "Config update $(date)"
-  git add $APP_CONFIG_DIR/*
+  git add --all
+  # git add $APP_CONFIG_DIR/*
+
   git commit -a -m "Config update $APP_INIT_SCRIPT_STARTED"
+
   # ###   Show changes
-  # git show --name-only
+  git show --name-only
+
   # ###   Upload
-  # git push -u -f origin master
-  #git push -u -f "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" master
+  # git push -f origin master
   # git push -u -f "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" "$GITHUB_BRANCH"
   GIT_URL="https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO"
   #
-  echo -e "git push -u -f $GIT_URL $GITHUB_BRANCH"
-  git push -u -f "$GIT_URL" "$GITHUB_BRANCH"
+  echo -e "git push -f $GIT_URL $GITHUB_BRANCH"
+  git push -f "$GIT_URL" "$GITHUB_BRANCH"
   #
   echo -e "\033[0m"
 }
