@@ -12,18 +12,8 @@
 
 # #########################################################################################################
 # ###
-#
-#THIS=$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || echo $0)
-#APP_INIT_SCRIPT_FILENAME=$THIS
-#APP_INIT_SCRIPT_DIR=$(dirname "${THIS}")
-#APP_INIT_SCRIPT_STARTED=$(date +'%A %B %e %T %Y')
-#export APP_INIT_SCRIPT_STARTED
-#export APP_INIT_SCRIPT_FILENAME
-#export APP_INIT_SCRIPT_DIR
-
-# ###
 if [ "$APP_ALLOWED_CONFIGS" == "" ]; then
-  APP_ALLOWED_CONFIGS=".defaults,.config,.env,.ctx"
+  APP_ALLOWED_CONFIGS=".defaults,.config,.env,.env.local,.ctx"
   export APP_ALLOWED_CONFIGS
 fi
 
