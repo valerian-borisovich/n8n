@@ -6,7 +6,7 @@ APP_BASE_DIR=/opt/render/project/src
 APP_CONFIG_DIR=/opt/render/project/src/packages/conf/latest
 APP_INIT_SCRIPT_DIR=/opt/render/project/src/packages/conf/scripts
 APP_INIT_SCRIPT_FILENAME=/opt/render/project/src/packages/conf/scripts/save.sh
-APP_INIT_SCRIPT_STARTED=2024.10.03 09:30:50.354516093
+APP_INIT_SCRIPT_STARTED=2024.10.03 09:40:50.156027878
 
 # ###   RENDER
 #   
