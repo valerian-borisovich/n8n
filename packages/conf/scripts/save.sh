@@ -92,7 +92,7 @@ config_upload() {
   git status -s
   
   # ###   Pull
-  #git pull --ff
+  # git pull --ff
 
   # ###   replace localfiles from remote repo
   # git fetch --all
@@ -109,12 +109,12 @@ config_upload() {
   # git show --name-only
 
   # ###   Upload
-  # git push -f origin master
-  # git push -u -f "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" "$GITHUB_BRANCH"
+  # git push -f -u origin master
+  # git push -f -u "https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO" "$GITHUB_BRANCH"
   GIT_URL="https://$GITHUB_LOGIN:$GITHUB_TOKEN@$GITHUB_REPO"
   #
   echo -e "git push -f $GIT_URL $GITHUB_BRANCH"
-  LEFTHOOK=0 git push -f "$GIT_URL" "$GITHUB_BRANCH"
+  LEFTHOOK=0 git push -f -u "$GIT_URL" "$GITHUB_BRANCH"
 
 
   # ###
