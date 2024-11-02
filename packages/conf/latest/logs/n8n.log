@@ -1813,3 +1813,18 @@
 {"level":"info","message":" ================================","metadata":{"file":"active-workflow-manager.js","function":"addActiveWorkflows","timestamp":"2024-11-02T14:28:13.446Z"}}
 {"level":"info","message":"   - \"Backup to github\" (ID: fl3g7dJo7uhOLVso)","metadata":{"file":"active-workflow-manager.js","function":"add","timestamp":"2024-11-02T14:28:13.446Z"}}
 {"level":"info","message":"     => Started","metadata":{"file":"active-workflow-manager.js","function":"addActiveWorkflows","timestamp":"2024-11-02T14:28:13.934Z"}}
+{"level":"error","message":"Last session crashed","metadata":{"file":"crash-journal.js","function":"init","timestamp":"2024-11-02T14:37:45.465Z"}}
+{"level":"info","message":"Initializing n8n process","metadata":{"file":"start.js","function":"init","timestamp":"2024-11-02T14:37:55.472Z"}}
+{"level":"info","message":"n8n ready on 0.0.0.0, port 80","metadata":{"file":"abstract-server.js","function":"init","timestamp":"2024-11-02T14:37:58.466Z"}}
+{"level":"warn","message":"Found unfinished executions: 154, 155","metadata":{"file":"message-event-bus.js","function":"initialize","timestamp":"2024-11-02T14:38:19.967Z"}}
+{"level":"info","message":"This could be due to a crash of an active workflow or a restart of n8n.","metadata":{"file":"message-event-bus.js","function":"initialize","timestamp":"2024-11-02T14:38:19.968Z"}}
+{"level":"info","message":"Currently active workflows:","metadata":{"file":"message-event-bus.js","function":"initialize","timestamp":"2024-11-02T14:38:19.971Z"}}
+{"level":"info","message":"   - Backup to github (ID: fl3g7dJo7uhOLVso)","metadata":{"file":"message-event-bus.js","function":"initialize","timestamp":"2024-11-02T14:38:19.971Z"}}
+{"level":"info","message":"[Recovery] Logs available, amended execution","metadata":{"executionId":"154","file":"execution-recovery.service.js","function":"recoverFromLogs","timestamp":"2024-11-02T14:38:20.167Z"}}
+{"level":"info","message":"[Recovery] Logs available, amended execution","metadata":{"executionId":"155","file":"execution-recovery.service.js","function":"recoverFromLogs","timestamp":"2024-11-02T14:38:20.293Z"}}
+{"level":"info","message":"Version: 1.62.1","metadata":{"file":"abstract-server.js","function":"start","timestamp":"2024-11-02T14:38:20.678Z"}}
+{"level":"info","message":" ================================","metadata":{"file":"active-workflow-manager.js","function":"addActiveWorkflows","timestamp":"2024-11-02T14:38:20.976Z"}}
+{"level":"info","message":"   Start Active Workflows:","metadata":{"file":"active-workflow-manager.js","function":"addActiveWorkflows","timestamp":"2024-11-02T14:38:20.977Z"}}
+{"level":"info","message":" ================================","metadata":{"file":"active-workflow-manager.js","function":"addActiveWorkflows","timestamp":"2024-11-02T14:38:20.977Z"}}
+{"level":"info","message":"   - \"Backup to github\" (ID: fl3g7dJo7uhOLVso)","metadata":{"file":"active-workflow-manager.js","function":"add","timestamp":"2024-11-02T14:38:20.977Z"}}
+{"level":"info","message":"     => Started","metadata":{"file":"active-workflow-manager.js","function":"addActiveWorkflows","timestamp":"2024-11-02T14:38:21.371Z"}}
