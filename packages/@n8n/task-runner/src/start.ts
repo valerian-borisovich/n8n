@@ -1,46 +1,78 @@
-import { ApplicationError, ensureError } from 'n8n-workflow';
-import * as a from 'node:assert/strict';
+import './polyfills';
+import { Container } from '@n8n/di';
+import { ensureError, setGlobalState } from 'n8n-workflow';
 
-import { authenticate } from './authenticator';
-import { JsTaskRunner } from './code';
+import { MainConfig } from './config/main-config';
+import type { HealthCheckServer } from './health-check-server';
+import { JsTaskRunner } from './js-task-runner/js-task-runner';
+import { TaskRunnerSentry } from './task-runner-sentry';
 
-type Config = {
-	n8nUri: string;
-	authToken?: string;
-	grantToken?: string;
-};
+let healthCheckServer: HealthCheckServer | undefined;
+let runner: JsTaskRunner | undefined;
+let isShuttingDown = false;
+let sentry: TaskRunnerSentry | undefined;
 
-function readAndParseConfig(): Config {
-	const authToken = process.env.N8N_RUNNERS_AUTH_TOKEN;
-	const grantToken = process.env.N8N_RUNNERS_GRANT_TOKEN;
-	if (!authToken && !grantToken) {
-		throw new ApplicationError(
-			'Missing task runner authentication. Use either N8N_RUNNERS_AUTH_TOKEN or N8N_RUNNERS_GRANT_TOKEN to configure it',
-		);
-	}
+function createSignalHandler(signal: string, timeoutInS = 10) {
+	return async function onSignal() {
+		if (isShuttingDown) {
+			return;
+		}
 
-	return {
-		n8nUri: process.env.N8N_RUNNERS_N8N_URI ?? 'localhost:5678',
-		authToken,
-		grantToken,
+		console.log(`Received ${signal} signal, shutting down...`);
+
+		setTimeout(() => {
+			console.error('Shutdown timeout reached, forcing shutdown...');
+			process.exit(1);
+		}, timeoutInS * 1000).unref();
+
+		isShuttingDown = true;
+		try {
+			if (runner) {
+				await runner.stop();
+				runner = undefined;
+				void healthCheckServer?.stop();
+			}
+
+			if (sentry) {
+				await sentry.shutdown();
+				sentry = undefined;
+			}
+		} catch (e) {
+			const error = ensureError(e);
+			console.error('Error stopping task runner', { error });
+		} finally {
+			console.log('Task runner stopped');
+			process.exit(0);
+		}
 	};
 }
 
 void (async function start() {
-	const config = readAndParseConfig();
+	const config = Container.get(MainConfig);
 
-	let grantToken = config.grantToken;
-	if (!grantToken) {
-		a.ok(config.authToken);
+	setGlobalState({
+		defaultTimezone: config.baseRunnerConfig.timezone,
+	});
 
-		grantToken = await authenticate({
-			authToken: config.authToken,
-			n8nUri: config.n8nUri,
-		});
+	sentry = Container.get(TaskRunnerSentry);
+	await sentry.initIfEnabled();
+
+	runner = new JsTaskRunner(config);
+	runner.on('runner:reached-idle-timeout', () => {
+		// Use shorter timeout since we know we don't have any tasks running
+		void createSignalHandler('IDLE_TIMEOUT', 1)();
+	});
+
+	const { enabled, host, port } = config.baseRunnerConfig.healthcheckServer;
+
+	if (enabled) {
+		const { HealthCheckServer } = await import('./health-check-server');
+		healthCheckServer = new HealthCheckServer();
+		await healthCheckServer.start(host, port);
 	}
 
-	const wsUrl = `ws://${config.n8nUri}/runners/_ws`;
-	new JsTaskRunner('javascript', wsUrl, grantToken, 5);
+	process.on('SIGINT', createSignalHandler('SIGINT'));
+	process.on('SIGTERM', createSignalHandler('SIGTERM'));
 })().catch((e) => {
 	const error = ensureError(e);
 	console.error('Task runner failed to start', { error });
